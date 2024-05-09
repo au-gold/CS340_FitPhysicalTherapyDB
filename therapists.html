@@ -1,0 +1,140 @@
+<!-- Citation for following HTML:
+    Date: 05/08/2024
+    Copied from CS340 class module
+  -->
+  <html>
+<head>
+<title>Therapists</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+    function showform(dowhat) {
+        /*
+        * four DIVS: browse, insert, update, delete
+        * this function sets one visible the others not
+        */
+        if (dowhat == 'insert'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (dowhat == 'update'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (dowhat == 'delete'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else if (dowhat == 'all'){
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else { //by default display browse
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+    }
+    function newTherapist() { showform('insert'); }
+    function updateTherapist(tid) { showform('update'); }
+    function deleteTherapist(tid) { showform('delete'); }
+    function browseTherapists() { showform('browse'); }
+    function showAll() { showform('all'); }
+</script>
+</head>
+
+<body onload="browseTherapists()">
+<h1>Therapists</h1>
+
+[ <a href="patients.html">Patients</a> | <a href="therapists.html">Therapists</a> | Appointment | Insurance ]
+
+<div id="browse">
+<p><a href="#" onClick="showAll()">Display all forms</a> </p>
+<table border="1" cellpadding="5">
+  <tr>
+    <th><a href="#" onClick="newTherapist()">New</a></th>
+    <th></th>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>License Number</th>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateTherapist('this.therapistID')">Edit</a></td>
+    <td><a href="#" onclick="deleteTherapist('this.therapistID')">Delete</a></td>
+    <td align="right" >1</td>
+    <td >Emily</td>
+    <td align="right" >Miller</td>
+    <td>PT-94491</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateTherapist('this.therapistID')">Edit</a></td>
+    <td><a href="#" onclick="deleteTherapist('this.therapistID')">Delete</a></td>
+    <td align="right" >2</td>
+    <td>Christopher</td>
+    <td align="right" >Johnson</td>
+    <td>PT-50712</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateTherapist('this.therapistID')">Edit</a></td>
+    <td><a href="#" onclick="deleteTherapist('this.therapistID')">Delete</a></td>
+    <td align="right" >3</td>
+    <td>David</td>
+    <td align="right" >Bowie</td>
+    <td>PT-45711</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert" style="display: none;">
+    <form method="POST" id="addTherapist">
+        <legend><strong>Add Therapist</strong></legend>
+          <fieldset class="fields">
+            <label> First Name </label> <input type="text" name="firstname">
+            <label> Last Name </label> <input type="text" name="lastname">
+            <label> License Number </label> <input type="text" name="licenseNum">
+      </fieldset>
+          <input class="btn" type="submit" id="addTherapist" value="Add Therapist">
+          <input class="btn" type="button" value="cancel" onClick="browseTherapists()">
+    </form> 
+</div><!-- insert -->
+<p>&nbsp;</p>
+<div id="update" style="display: none;">
+    <form method="POST" id="UpdateTherapist">
+        <legend><strong>Update Therapist</strong></legend>
+          <fieldset class="fields">
+          <input type="hidden" name="therapistID" id="updateTherapistID" value="1">
+          <label> ID: </label> 1
+            <label> First Name </label> <input type="text" name="firstname" value="Emily">
+            <label> Last Name </label> <input type="text" name="lastname" value="Miller">
+            <label> License Number </label> <input type="text" name="licenseNum" value="PT-45711">
+      </fieldset>
+          <input class="btn" type="submit" id="UpdateSaveTherapist" value="Save Update Therapist">
+          <input class="btn" type="button" value="cancel" onClick="browseTherapists()">
+    </form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: none;">
+  <form method="POST" id="deleteTherapist">
+      <legend><strong>Delete Therapist</strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="therapistID" id="deleteTherapistID" value="1">
+          <label><strong>ID:</strong></label> 1
+            <label> <strong>Name</strong> </label> Emily Miller
+    </fieldset>
+    <input class="btn" type="submit" id="DeleteTherapist" value="Delete Therapist">
+          <input class="btn" type="button" value="cancel" onClick="browseTherapists()">
+  </form> 
+</div><!-- delete -->
+
+</body>
+</html>
