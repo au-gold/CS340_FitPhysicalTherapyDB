@@ -1,0 +1,173 @@
+<!-- Citation for following HTML:
+    Date: 05/08/2024
+    Copied from CS340 class module
+  -->
+<html>
+<head>
+<title>Appointments</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+    function showform(dowhat) {
+        if (dowhat == 'insert'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (dowhat == 'update'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (dowhat == 'delete'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else if (dowhat == 'all'){
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+    }
+    function newAppointment() { showform('insert'); }
+    function updateAppointment(aid) { showform('update'); }
+    function deleteAppointment(aid) { showform('delete'); }
+    function browseAppointments() { showform('browse'); }
+    function showAll() { showform('all'); }
+</script>
+</head>
+
+<body onload="browseAppointments()">
+<h1>Appointments</h1>
+
+[ <a href="patients.html">Patients</a> | <a href="therapists.html">Therapists</a> | <a href="insurance.html">Insurance</a> | <a href="appointments.html">Appointments</a> ]
+
+<div id="browse">
+<p><a href="#" onClick="showAll()">Display all forms</a></p>
+<table border="1" cellpadding="5">
+  <tr>
+    <th><a href="#" onClick="newAppointment()">New</a></th>
+    <th></th>
+    <th>Appointment ID</th>
+    <th>Patient ID</th>
+    <th>Patient Name</th>
+    <th>Therapist ID</th>
+    <th>Therapist Name</th>
+    <th>Treatment Plan ID</th>
+    <th>Date</th>
+    <th>Time</th>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateAppointment('this.appointmentID')">Edit</a></td>
+    <td><a href="#" onclick="deleteAppointment('this.appointmentID')">Delete</a></td>
+    <td align="right">1</td>
+    <td align="right">2</td>
+    <td align="right">Emily Johnson</td>
+    <td align="right">3</td>
+    <td align="right">David Bowie</td>
+    <td align="right">1</td>
+    <td>2024-04-15</td>
+    <td>09:00</td>
+  </tr>
+
+  <tr>
+    <td><a href="#" onClick="updateAppointment('this.appointmentID')">Edit</a></td>
+    <td><a href="#" onclick="deleteAppointment('this.appointmentID')">Delete</a></td>
+    <td align="right">2</td>
+    <td align="right">3</td>
+    <td align="right">Christopher Lee</td>
+    <td align="right">2</td>
+    <td align="right">David Bowie</td>
+    <td align="right">3</td>
+    <td>2024-04-16</td>
+    <td>11:00</td>
+  </tr>
+
+  <tr>
+    <td><a href="#" onClick="updateAppointment('this.appointmentID')">Edit</a></td>
+    <td><a href="#" onclick="deleteAppointment('this.appointmentID')">Delete</a></td>
+    <td align="right">3</td>
+    <td align="right">1</td>
+    <td align="right">Michael Garcia</td>
+    <td align="right">1</td>
+    <td align="right">Emily Miller</td>
+    <td align="right">2</td>
+    <td>2024-04-17</td>
+    <td>10:00</td>
+  </tr>
+
+</table>
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert" style="display: none;">
+    <form method="POST" id="addAppointment">
+        <legend><strong>Add Appointment</strong></legend>
+          <fieldset class="fields">
+            <label> Patient ID </label> <input type="text" name="patientID">
+            <label> Patient First Name </label> <input type="text" name="firstname">
+            <label> Patient Last Name </label> <input type="text" name="lastname">
+            <label> Therapist ID </label> <input type="text" name="therapistID">
+            <label> Therapist First Name </label> <input type="text" name="firstname">
+            <label> Therapist Last Name </label> <input type="text" name="lastname">
+            <label> Treatment Plan ID </label> <input type="text" name="TreatmentPlanID">
+            <label> Date </label> <input type="date" name="appointmentDate">
+            <label> Time </label> <input type="time" name="AppointmentTime">
+      </fieldset>
+          <input class="btn" type="submit" id="addAppointment" value="Add Appointment">
+          <input class="btn" type="button" value="cancel" onClick="browseAppointments()">
+    </form> 
+</div><!-- insert -->
+<p>&nbsp;</p>
+<div id="update" style="display: none;">
+    <form method="POST" id="UpdateAppointment">
+        <legend><strong>Update Appointment</strong></legend>
+          <fieldset class="fields">
+          <input type="hidden" name="appointmentID" id="updateAppointmentID" value="1">
+          <label> ID: </label> 1
+            <label> Patient ID </label> <input type="text" name="patientID" value="1">
+            <label> Patient First Name </label> <input type="text" name="firstname" value="Michael">
+            <label> Patient Last Name </label> <input type="text" name="lastname" value="Garcia">
+            <label> Therapist ID </label> <input type="text" name="therapistID" value="2">
+            <label> Therapist First Name </label> <input type="text" name="firstname" value="Christopher">
+            <label> Therapist Last Name </label> <input type="text" name="lastname" value="Johnson">
+            <label> Treatment Plan ID </label> <input type="text" name="TreatmentPlanID" value="3"> 
+            <label> Date </label> <input type="date" name="appointmentDate" value="2024-04-15">
+            <label> Time </label> <input type="time" name="AppointmentTime" value="09:00">
+
+      </fieldset>
+          <input class="btn" type="submit" id="UpdateSaveAppointment" value="Save Update Appointment">
+          <input class="btn" type="button" value="cancel" onClick="browseAppointments()">
+    </form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: none;">
+  <form method="POST" id="deleteAppointment">
+      <legend><strong>Delete Appointment</strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="appointmentID" id="deleteAppointmentID" value="1">
+          <label><strong>Appointment ID:</strong></label> 1
+            <label> <strong>Patient ID:</strong> </label> 1
+            <label> Patient First Name </label> <input type="text" name="firstname" value="Michael">
+            <label> Patient Last Name </label> <input type="text" name="lastname" value="Garcia">
+            <label> <strong>Therapist ID:</strong> </label> 2
+            <label> Therapist First Name </label> <input type="text" name="firstname" value="Christopher">
+            <label> Therapist Last Name </label> <input type="text" name="lastname" value="Johnson">
+    </fieldset>
+    <input class="btn" type="submit" id="DeleteAppointment" value="Delete Appointment">
+          <input class="btn" type="button" value="cancel" onClick="browseAppointments()">
+  </form> 
+</div><!-- delete -->
+
+</body>
+</html>
