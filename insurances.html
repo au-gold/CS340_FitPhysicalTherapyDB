@@ -1,0 +1,142 @@
+<!-- Citation for following HTML:
+    Date: 05/08/2024
+    Copied from CS340 class module
+  -->
+<html>
+<head>
+<title>Insurance</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+    function showform(dowhat) {
+        if (dowhat == 'insert'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (dowhat == 'update'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (dowhat == 'delete'){
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else if (dowhat == 'all'){
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+    }
+    function newInsurance() { showform('insert'); }
+    function updateInsurance(iid) { showform('update'); }
+    function deleteInsurance(iid) { showform('delete'); }
+    function browseInsurance() { showform('browse'); }
+    function showAll() { showform('all'); }
+</script>
+</head>
+
+<body onload="browseInsurance()">
+<h1>Insurance</h1>
+
+[ <a href="patients.html">Patients</a> | <a href="therapists.html">Therapists</a> | <a href="appointments.html">Appointments</a> 
+| <a href="insurances.html">Insurances</a> | <a href="exercises.html">Exercises</a>
+| <a href="treatmentPlans.html">Treatment Plans</a> ]
+
+<div id="browse">
+<p><a href="#" onClick="showAll()">Display all forms</a> </p>
+<table border="1" cellpadding="5">
+  <tr>
+    <th><a href="#" onClick="newInsurance()">New</a></th>
+    <th></th>
+    <th>Insurance ID</th>
+    <th>Subscriber Name</th>
+    <th>Card Number</th>
+    <th>Group Number</th>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateInsurance('this.insuranceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteInsurance('this.insuranceID')">Delete</a></td>
+    <td align="right">1</td>
+    <td>Michael Garcia</td>
+    <td>ID-789-123</td>
+    <td>7GRP123</td>
+  </tr>
+
+  <tr>
+    <td><a href="#" onClick="updateInsurance('this.insuranceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteInsurance('this.insuranceID')">Delete</a></td>
+    <td align="right">2</td>
+    <td>Christopher Lee</td>
+    <td>ID-123-456</td>
+    <td>6UW012</td>
+  </tr>
+
+  <tr>
+    <td><a href="#" onClick="updateInsurance('this.insuranceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteInsurance('this.insuranceID')">Delete</a></td>
+    <td align="right">4</td>
+    <td>David Miller</td>
+    <td>ID-567-777</td>
+    <td>8CN123</td>
+  </tr>
+
+</table>
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert" style="display: none;">
+    <form method="POST" id="addInsurance">
+        <legend><strong>Add Insurance</strong></legend>
+          <fieldset class="fields">
+            <label> Subscriber Name </label> <input type="text" name="subscriberName">
+            <label> Card Number </label> <input type="text" name="insCardNum">
+            <label> Group Number </label> <input type="text" name="insGroupnum">
+      </fieldset>
+          <input class="btn" type="submit" id="addInsurance" value="Add Insurance">
+          <input class="btn" type="button" value="cancel" onClick="browseInsurance()">
+    </form> 
+</div><!-- insert -->
+<p>&nbsp;</p>
+<div id="update" style="display: none;">
+    <form method="POST" id="UpdateInsurance">
+        <legend><strong>Update Insurance</strong></legend>
+          <fieldset class="fields">
+          <input type="hidden" name="insuranceID" id="updateInsuranceID" value="1">
+          <label> ID: </label> 1
+            <label> Subscriber Name </label> <input type="text" name="subscriberName" value="Michael Garcia">
+            <label> Card Number </label> <input type="text" name="insCardNum" value="ID-789-123">
+            <label> Group Number </label> <input type="text" name="insGroupnum" value="7GRP123">
+      </fieldset>
+          <input class="btn" type="submit" id="UpdateSaveInsurance" value="Save Update Insurance">
+          <input class="btn" type="button" value="cancel" onClick="browseInsurance()">
+    </form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: none;">
+  <form method="POST" id="deleteInsurance">
+      <legend><strong>Delete Insurance</strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="insuranceID" id="deleteInsuranceID" value="1">
+          <label><strong>ID:</strong></label> 1
+            <label> <strong>Name</strong> </label> Michael Garcia
+    </fieldset>
+    <input class="btn" type="submit" id="DeleteInsurance" value="Delete Insurance">
+          <input class="btn" type="button" value="cancel" onClick="browseInsurance()">
+  </form> 
+</div><!-- delete -->
+
+</body>
+</html>
+
