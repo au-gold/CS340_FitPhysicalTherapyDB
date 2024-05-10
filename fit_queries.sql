@@ -83,4 +83,39 @@ WHERE exerciseID = :exerciseID;
 DELETE FROM exercises WHERE exerciseID = :exerciseID;
 
 
+-- Treatment Plan QUERIES
+-- Displays Treatment Plan Only
+SELECT * FROM TreatmentPlans WHERE treatmentPlanID = :treatmentPlanID;
+
+-- Adds to Treatment Plan
+INSERT INTO TreatmentPlans (duration, frequency, treatmentGoalDesc) 
+VALUES (:duration, :frequency, :treatmentGoalDesc);
+
+-- Update an TreatmentPlan
+UPDATE TreatmentPlans 
+SET duration = :duration, frequency = :frequency, treatmentGoalDesc = :treatmentGoalDesc
+WHERE treatmentPlanID = :treatmentPlanID;
+
+-- Deletes a TreatmentPlan
+DELETE FROM TreatmentPlans WHERE treatmentPlanID = :treatmentPlanID;
+
+
+-- TreatmentExercises intersection table QUERIEs
+-- Displays TreatmentExercises Table
+SELECT treatmentPlanID, TreatmentExercises.exerciseID, Exercises.exerciseName, sets, reps FROM TreatmentExercises
+INNER JOIN Exercises ON Exercises.exerciseID = TreatmentExercises.exerciseID;
+
+-- Adds to TreatmentExercises
+INSERT INTO TreatmentExercises (treatmentPlanID, exerciseID, sets, reps) 
+VALUES (:treatmentPlanID, (SELECT exerciseID FROM Exercises WHERE exerciseName = :exerciseNamefromDropDown), :sets, :reps);
+
+-- Update an TreatmentExercises
+UPDATE TreatmentExercises 
+SET treatmentPlanID = :treatmentPlanID, exerciseID = :exerciseID, sets = :sets, reps = :reps
+WHERE treatmentExerciseID = :treatmentExerciseID;
+
+-- Deletes an TreatmentExercises
+DELETE FROM TreatmentExercises WHERE treatmentExerciseID = :treatmentExerciseID;
+
+
 
