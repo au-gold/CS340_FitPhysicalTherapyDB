@@ -1,14 +1,15 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+cors = CORS(app, origins='*')
 
 @app.route("/patients", methods=['GET'])
 def patients():
     return jsonify(
         {
             "patientID": [1, 2, 3],
-            "First Name": ["Michael", "Emily", "Christopher"]
+            "firstName": ["Michael", "Emily", "Christopher"]
         }
     )
 
