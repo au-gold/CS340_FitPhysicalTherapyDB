@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MdLocalConvenienceStore } from "react-icons/md";
+import { GiWeightLiftingUp } from "react-icons/gi";;
 
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
@@ -10,10 +10,10 @@ const Navbar = () => {
     <header>
       <div>
         <Link to="/">
-          <MdLocalConvenienceStore size={80} />
+          <GiWeightLiftingUp size={80} />
         </Link>
       </div>
-      <h1>Fit Physical Therapy</h1>
+      {/* <h1>Fit Physical Therapy</h1> */}
       <nav>
         <ul>
           <li>
