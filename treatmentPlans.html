@@ -39,7 +39,7 @@
             document.getElementById('updatePlan').style.display = 'block';
             document.getElementById('deletePlan').style.display = 'block';
         }
-        if (dowhat == 'insertPlan'){
+        else if (dowhat == 'insertPlan'){
             document.getElementById('browse').style.display = 'none';
             document.getElementById('insert').style.display = 'none';
             document.getElementById('update').style.display = 'none';
@@ -182,7 +182,11 @@
     <form method="POST" id="addTreatment">
         <legend><strong>Add Treatment</strong></legend>
           <fieldset class="fields">
-            <label> Treatment Plan ID </label> <input type="text" name="treatmentID">
+            <label> Treatment Plan ID </label> <select name="treatmentID">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              </select>
             <label> Exercise Name </label> <select name="exerciseName">
             <option value="0">&nbsp;</option>
             <option value="1">Sit Ups</option>
@@ -203,7 +207,11 @@
           <fieldset class="fields">
           <input type="hidden" name="TreatmentID" id="updateTreatmentID" value="1">
           <label> ID: </label> 1
-            <label> Treatment ID </label> <input type="text" name="treatmentID" value="1">
+          <label> Treatment Plan ID </label> <select name="treatmentID">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            </select>
             <label> Exercise Name </label> <select name="exerciseName">
               <option value="0">&nbsp;</option>
               <option value="1" selected>Sit Ups</option>

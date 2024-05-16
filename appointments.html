@@ -117,9 +117,89 @@
     <form method="POST" id="addAppointment">
         <legend><strong>Add Appointment</strong></legend>
           <fieldset class="fields">
-            <label> Patient ID </label> <input type="text" name="patientID">
+            <!-- <label> Patient ID </label> <input type="text" name="patientID">
             <label> Patient First Name </label> <input type="text" name="firstname">
-            <label> Patient Last Name </label> <input type="text" name="lastname">
+            <label> Patient Last Name </label> <input type="text" name="lastname"> -->
+
+            <select id="idDropdown" onchange="populateFields('id')">
+              <option value="">Select ID</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+            
+            <!-- First Name dropdown -->
+            <select id="fnameDropdown" onchange="populateFields('fname')">
+              <option value="">Select First Name</option>
+              <option value="Michael">Michael</option>
+              <option value="Emily">Emily</option>
+              <option value="Christopher">Christopher</option>
+            </select>
+            
+            <!-- Last Name dropdown -->
+            <select id="lnameDropdown" onchange="populateFields('lname')">
+              <option value="">Select Last Name</option>
+              <option value="Garcia">Garcia</option>
+              <option value="Johnson">Johnson</option>
+              <option value="Lee">Lee</option>
+            </select>
+            
+            
+            <script>
+            function populateFields(fieldType) {
+              var idDropdown = document.getElementById("idDropdown");
+              var fnameDropdown = document.getElementById("fnameDropdown");
+              var lnameDropdown = document.getElementById("lnameDropdown");
+            
+              // Define data mappings (you can replace this with data from a database)
+              var data = {
+                "1": { "fname": "Michael", "lname": "Garcia" },
+                "2": { "fname": "Emily", "lname": "Johnson" },
+                "3": { "fname": "Christopher", "lname": "Lee" }
+              };
+            
+              // Update other form fields based on selected field type
+              if (fieldType === 'id') {
+                var selectedId = idDropdown.options[idDropdown.selectedIndex].value;
+                if (data[selectedId]) {
+                  document.getElementById("lnameDropdown").value = data[selectedId].lname;
+                  document.getElementById("idDropdown").value = selectedId;
+                  document.getElementById("fnameDropdown").value = data[selectedId].fname;
+                } else {
+                  // Clear fields if no selection or selection not found in data
+                  document.getElementById("lnameDropdown").value = "";
+                  document.getElementById("idDropdown").value = "";
+                  document.getElementById("fnameDropdown").value = "";
+                }
+              } else if (fieldType === 'fname') {
+                var selectedFname = fnameDropdown.options[fnameDropdown.selectedIndex].value;
+                for (var key in data) {
+                  if (data.hasOwnProperty(key)) {
+                    if (data[key].fname === selectedFname) {
+                      document.getElementById("lnameDropdown").value = data[key].lname;
+                      // document.getElementById("id").value = key;
+                      document.getElementById("idDropdown").value = key;
+                      break;
+                    }
+                  }
+                }
+              } else if (fieldType === 'lname') {
+                var selectedLname = lnameDropdown.options[lnameDropdown.selectedIndex].value;
+                for (var key in data) {
+                  if (data.hasOwnProperty(key)) {
+                    if (data[key].lname === selectedLname) {
+                      document.getElementById("fnameDropdown").value = data[key].fname;
+                      // document.getElementById("id").value = key;
+                      document.getElementById("idDropdown").value = key;
+                      break;
+                    }
+                  }
+                }
+              }
+            }
+            </script>
+
+
             <label> Therapist ID </label> <input type="text" name="therapistID">
             <label> Therapist First Name </label> <input type="text" name="firstname">
             <label> Therapist Last Name </label> <input type="text" name="lastname">
