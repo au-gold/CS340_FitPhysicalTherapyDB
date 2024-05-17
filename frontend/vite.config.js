@@ -7,7 +7,7 @@ dotenv.config()
 // https://vitejs.dev/config/
 export default defineConfig({
   server:{
-    port: parseInt(process.env.VITE_PORT, 10) || 5171
+    port: parseInt(process.env.VITE_PORT, 10) || 5172
   },
   plugins: [react()],
   esbuild: {
