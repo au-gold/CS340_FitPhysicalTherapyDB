@@ -32,8 +32,8 @@ function CreatePatient() {
     };
 
     try {
-    //   const URL = import.meta.env.VITE_API_URL + "people";
-      const URL = "http://127.0.0.1:9112/api/patients";
+      const URL = import.meta.env.VITE_API_URL + "patients";
+      // const URL = "http://127.0.0.1:9112/api/patients";
       const response = await axios.post(URL, newPatient);
       if (response.status === 201) {
         navigate("/patients");
