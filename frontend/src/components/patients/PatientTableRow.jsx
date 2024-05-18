@@ -18,8 +18,8 @@ const TableRow = ({ patient, fetchPatients }) => {
 
   const deleteRow = async () => {
     try {
-    //   const URL = import.meta.env.VITE_API_URL + "people/" + patient.id;
-      const URL = "http://127.0.0.1:9112/api/patients";
+      const URL = import.meta.env.VITE_API_URL + "patients/" + patient.id;
+      // const URL = "http://127.0.0.1:9112/api/patients";
       const response = await axios.delete(URL);
       // Ensure that the patient was deleted successfully
       if (response.status === 204) {

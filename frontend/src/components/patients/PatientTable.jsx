@@ -11,8 +11,9 @@ const PatientTable = () => {
 
   const fetchPatients = async () => {
     try {
-    //   const URL = import.meta.env.VITE_API_URL + "patients";
-      const URL = "http://127.0.0.1:9112/api/patients";
+      const URL = import.meta.env.VITE_API_URL + "patients";
+      console.debug(URL)
+      // const URL = "http://127.0.0.1:9112/api/patients";
       const response = await axios.get(URL);
       setPatients(response.data);
     } catch (error) {

@@ -51,8 +51,8 @@ const UpdatePatient = () => {
     // Check if formData is equal to prevPatient
     if (isUpdate()){
       try {
-        // const URL = import.meta.env.VITE_API_URL + "patients/" + id;
-        const URL = "http://127.0.0.1:9112/api/patients";
+        const URL = import.meta.env.VITE_API_URL + "patients/" + id;
+        // const URL = "http://127.0.0.1:9112/api/patients";
         const response = await axios.put(URL, formData);
         if (response.status !== 200) {
           alert("Error updating patient");

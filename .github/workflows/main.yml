@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - react-test
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to remote server
+        run: |
+          ssh kimmint@access.engr.oregonstate.edu << 'EOF'
+          cd ~/groupwork/CS340_FitPhysicalTherapyDB
+          touch test.txt
+          # git pull origin main
+          # Add any additional build or restart commands here
+          EOF
