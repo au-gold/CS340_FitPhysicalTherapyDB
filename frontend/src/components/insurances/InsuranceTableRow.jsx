@@ -18,12 +18,12 @@ const TableRow = ({ insurance, fetchInsurances }) => {
 
   const deleteRow = async () => {
     try {
-      const URL = import.meta.env.VITE_API_URL + "insurances/" + insurance.id;
+      const URL = import.meta.env.VITE_API_URL + "insurances/" + insurance.insuranceID;
       // const URL = "http://127.0.0.1:9112/api/insurances";
       const response = await axios.delete(URL);
       // Ensure that the insurance was deleted successfully
       if (response.status === 204) {
-        alert("Person deleted successfully");
+        alert("Insurance deleted successfully");
       }
     } catch (err) {
       alert(err.response.data.error || "Error deleting insurance");

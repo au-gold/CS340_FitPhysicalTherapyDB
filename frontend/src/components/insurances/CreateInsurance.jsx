@@ -30,6 +30,7 @@ function CreateInsurance() {
       // const URL = "http://127.0.0.1:9112/api/insurances";
       const response = await axios.post(URL, newInsurance);
       if (response.status === 201) {
+        alert("Insurance created successfully");
         navigate("/insurances");
       } else {
         alert("Error creating insurance");
