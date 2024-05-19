@@ -36,6 +36,7 @@ def patients():
 def insurances():
     if request.method == 'POST':
         # fire off if user presses the Add Person button
+        
         try:
             newInsurance = request.json
             subscriberName = newInsurance['subscriberName']
