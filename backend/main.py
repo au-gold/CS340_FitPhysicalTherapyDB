@@ -9,29 +9,6 @@ db_connection = db.connect_to_database()
 
 @app.route("/api/patients", methods=['POST', 'GET'])
 def patients():
-    
-    if request.method == 'POST':
-        # fire off if user presses the Add Person button
-        try:
-            newInsurance = request.json
-            subscriberName = newInsurance['subscriberName']
-            insCardNum = newInsurance['insCardNum']
-            insGroupNum = newInsurance['insGroupNum']
-
-            query = f"""
-                INSERT INTO Insurances (subscriberName, insCardNum, insGroupNum)
-                VALUES ({subscriberName}, {insCardNum}, {insGroupNum})
-            """
-            cursor = db.execute_query(db_connection=db_connection, query=query)
-
-            db_connection.commit()
-
-            return redirect("/people")
-
-        except Exception as e:
-            # Handle errors appropriately
-            print("Error creating insurance:", str(e))
-            return jsonify(error="Error creating insurance"), 500
 
     if request.method == 'GET':
         query = """
@@ -55,15 +32,38 @@ def patients():
         return results
 
 
-@app.route("/api/insurances", methods=['GET'])
+@app.route("/api/insurances", methods=['POST', 'GET'])
 def insurances():
-    
-    query = "SELECT * FROM Insurances;"
-    cursor = db.execute_query(db_connection=db_connection, query=query)
+    if request.method == 'POST':
+        # fire off if user presses the Add Person button
+        try:
+            newInsurance = request.json
+            subscriberName = newInsurance['subscriberName']
+            insCardNum = newInsurance['insCardNum']
+            insGroupNum = newInsurance['insGroupNum']
 
-    results = json.dumps(cursor.fetchall())
+            query = f"""
+                INSERT INTO Insurances (subscriberName, insCardNum, insGroupNum)
+                VALUES ({subscriberName}, {insCardNum}, {insGroupNum})
+            """
+            cursor = db.execute_query(db_connection=db_connection, query=query)
 
-    return results
+            db_connection.commit()
+
+            return redirect("/insurances")
+
+        except Exception as e:
+            # Handle errors appropriately
+            print("Error creating insurance:", str(e))
+            return jsonify(error="Error creating insurance"), 500
+
+    if request.method == 'GET':
+        query = "SELECT * FROM Insurances;"
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+
+        results = json.dumps(cursor.fetchall())
+
+        return results
 
 
 if __name__ == "__main__":
