@@ -13,7 +13,7 @@ const TableRow = ({ insurance, fetchInsurances }) => {
   // Redirect to edit insurance page
   const handleEdit = () => {
     // We can access the id (and query the insurance) with useParams() in the UpdateInsurance component
-    navigate("/insurances/edit/" + insurance.id, { state: { insurance } });
+    navigate("/insurances/edit/" + insurance.insuranceID, { state: { insurance } });
   };
 
   const deleteRow = async () => {

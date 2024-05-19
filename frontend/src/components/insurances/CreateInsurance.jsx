@@ -11,8 +11,8 @@ function CreateInsurance() {
 
   const [formData, setFormData] = useState({
     subscriberName: "",
-    InsCardNum: "",
-    InsGroupNum: "",
+    insCardNum: "",
+    insGroupNum: "",
   });
   
   const handleSubmit = async (e) => {
@@ -21,8 +21,8 @@ function CreateInsurance() {
     // Create a new insurance object from the formData
     const newInsurance = {
       subscriberName: formData.subscriberName,
-      InsCardNum: formData.InsCardNum,
-      InsGroupNum: formData.InsGroupNum,
+      insCardNum: formData.insCardNum,
+      insGroupNum: formData.insGroupNum,
     };
 
     try {
@@ -45,8 +45,8 @@ function CreateInsurance() {
   const resetFormFields = () => {
     setFormData({
       subscriberName: "",
-      InsCardNum: "",
-      InsGroupNum: "",
+      insCardNum: "",
+      insGroupNum: "",
     });
   };
 
@@ -69,18 +69,18 @@ function CreateInsurance() {
           defaultValue={formData.subscriberName}
           onChange={handleInputChange}
         />
-        <label htmlFor="InsCardNum">Insurance Card Number</label>
+        <label htmlFor="insCardNum">Insurance Card Number</label>
         <input
           type="text"
-          name="InsCardNum"
-          defaultValue={formData.InsCardNum}
+          name="insCardNum"
+          defaultValue={formData.insCardNum}
           onChange={handleInputChange}
         />
-        <label htmlFor="InsGroupNum">Insurance Group Number</label>
+        <label htmlFor="insGroupNum">Insurance Group Number</label>
         <input 
           type="text" 
-          name="InsGroupNum" 
-          value={formData.InsGroupNum} 
+          name="insGroupNum" 
+          value={formData.insGroupNum} 
           onChange={handleInputChange} 
         />
         <button type="submit">Create a Insurance</button>

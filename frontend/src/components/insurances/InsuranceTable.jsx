@@ -48,7 +48,10 @@ const InsuranceTable = () => {
           </thead>
           <tbody>
             {insurances.map((insurance) => (
-              <TableRow key={insurance.insuranceID} insurance={insurance} fetchInsurances={fetchInsurances} />
+              <TableRow 
+                key={insurance.insuranceID} 
+                insurance={insurance} 
+                fetchInsurances={fetchInsurances} />
             ))}
           </tbody>
         </table>
