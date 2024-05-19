@@ -39,19 +39,20 @@ def insurances():
         
         try:
             newInsurance = request.json
+            print(newInsurance)
             subscriberName = newInsurance['subscriberName']
             insCardNum = newInsurance['insCardNum']
             insGroupNum = newInsurance['insGroupNum']
 
             query = f"""
                 INSERT INTO Insurances (subscriberName, insCardNum, insGroupNum)
-                VALUES ({subscriberName}, {insCardNum}, {insGroupNum})
+                VALUES ('{subscriberName}', '{insCardNum}', '{insGroupNum}')
             """
             cursor = db.execute_query(db_connection=db_connection, query=query)
 
             db_connection.commit()
 
-            return redirect("/insurances")
+            return jsonify(message="Insurance created successfully"), 201
 
         except Exception as e:
             # Handle errors appropriately
