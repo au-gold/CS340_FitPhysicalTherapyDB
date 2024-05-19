@@ -40,7 +40,7 @@ const TableRow = ({ patient, fetchPatients }) => {
       <td>{patient.dateOfBirth}</td>
       <td>{patient.address}</td>
       <td>{patient.phoneNumber}</td>
-      <td>{patient.insuranceID}</td>
+      <td>{patient.insCardNum}</td>
       <td>
         <BiEditAlt onClick={handleEdit} size={25} style={{ cursor: "pointer" }} />
       </td>

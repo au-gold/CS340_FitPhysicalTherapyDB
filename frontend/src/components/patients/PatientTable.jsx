@@ -26,6 +26,10 @@ const PatientTable = () => {
     fetchPatients();
   }, []);
 
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString();
+  };
+
   return (
     <div>
       <h2>Patients Table</h2>
@@ -44,14 +48,19 @@ const PatientTable = () => {
               <th>Date of Birth</th>
               <th>Address</th>
               <th>Phone Number</th>
-              <th>Insurance ID</th>
+              <th>Insurance Card Number</th>
               <th>Edit</th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             {patients.map((patient) => (
-              <TableRow key={patient.patientID} patient={patient} fetchPatients={fetchPatients} />
+              <TableRow key={patient.patientID} 
+              patient={{ 
+                ...patient, 
+                dateOfBirth: formatDate(patient.dateOfBirth),
+              }}
+              fetchPatients={fetchPatients} />
             ))}
           </tbody>
         </table>

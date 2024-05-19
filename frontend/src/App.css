@@ -30,10 +30,23 @@ input[type='submit'], button, [aria-label]{
   margin-top: 10px;
 }
 
-td{
+table, th, td {
+  border: 1px solid;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td{
     /* background-color: aliceblue; */
+    padding-left: 10px;
     padding-right: 10px;
     text-align: left;
+}
+
+tr:hover {
+  background-color: rgb(57, 46, 46);
 }
 
 .to-do{
