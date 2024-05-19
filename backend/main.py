@@ -10,7 +10,20 @@ db_connection = db.connect_to_database()
 @app.route("/api/patients", methods=['GET'])
 def patients():
     
-    query = "SELECT * FROM Patients;"
+    query = """
+        SELECT 
+            p.patientID,
+            p.firstName,
+            p.lastName,
+            p.dateOfBirth,
+            p.address,
+            p.phoneNumber,
+            IFNULL(i.insCardNum, 'NULL') AS insCardNum
+            FROM 
+                Patients AS p
+            LEFT JOIN 
+                Insurances as i ON p.insuranceID = i.insuranceID;
+            """
     # The way the interface between MySQL and Flask works is by using an
     # object called a cursor. Think of it as the object that acts as the
     # person typing commands directly into the MySQL command line and
