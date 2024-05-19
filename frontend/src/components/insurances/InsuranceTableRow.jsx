@@ -7,40 +7,37 @@ import { BiEditAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
-const TableRow = ({ patient, fetchPatients }) => {
+const TableRow = ({ insurance, fetchInsurances }) => {
   // Hook that allows us to navigate programmatically
   const navigate = useNavigate();
-  // Redirect to edit patient page
+  // Redirect to edit insurance page
   const handleEdit = () => {
-    // We can access the id (and query the patient) with useParams() in the UpdatePatient component
-    navigate("/patients/edit/" + patient.id, { state: { patient } });
+    // We can access the id (and query the insurance) with useParams() in the UpdateInsurance component
+    navigate("/insurances/edit/" + insurance.id, { state: { insurance } });
   };
 
   const deleteRow = async () => {
     try {
-      const URL = import.meta.env.VITE_API_URL + "patients/" + patient.id;
-      // const URL = "http://127.0.0.1:9112/api/patients";
+      const URL = import.meta.env.VITE_API_URL + "insurances/" + insurance.id;
+      // const URL = "http://127.0.0.1:9112/api/insurances";
       const response = await axios.delete(URL);
-      // Ensure that the patient was deleted successfully
+      // Ensure that the insurance was deleted successfully
       if (response.status === 204) {
         alert("Person deleted successfully");
       }
     } catch (err) {
-      alert(err.response.data.error || "Error deleting patient");
+      alert(err.response.data.error || "Error deleting insurance");
       console.log(err);
     }
-    fetchPatients();
+    fetchInsurances();
   };
 
   return (
-    <tr key={patient.patientID}>
-      <td>{patient.patientID}</td>
-      <td>{patient.firstName}</td>
-      <td>{patient.lastName}</td>
-      <td>{patient.dateOfBirth}</td>
-      <td>{patient.address}</td>
-      <td>{patient.phoneNumber}</td>
-      <td>{patient.insCardNum}</td>
+    <tr key={insurance.insuranceID}>
+      <td>{insurance.insuranceID}</td>
+      <td>{insurance.subscriberName}</td>
+      <td>{insurance.insCardNum}</td>
+      <td>{insurance.insGroupNum}</td>
       <td>
         <BiEditAlt onClick={handleEdit} size={25} style={{ cursor: "pointer" }} />
       </td>

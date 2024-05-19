@@ -8,21 +8,10 @@ import { GiWeightLiftingUp } from "react-icons/gi";;
 const Navbar = () => {
   return (
     <header>
-      <div>
-        <Link to="/">
-          <GiWeightLiftingUp size={80} />
-        </Link>
-      </div>
-      {/* <h1>Fit Physical Therapy</h1> */}
       <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/patients">Patients</Link>
-          </li>
-        </ul>
+          <Link to="/">Home</Link> |
+          <Link to="/patients"> Patients</Link> |
+          <Link to="/insurances"> Insurances</Link>
       </nav>
     </header>
   );

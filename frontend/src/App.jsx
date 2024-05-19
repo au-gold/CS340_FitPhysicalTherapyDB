@@ -5,6 +5,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import PatientsPage from "./pages/PatientsPage";
+import InsurancesPage from "./pages/InsurancesPage";
 import Navbar from "./components/navbar/NavBar";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/patients/*" element={<PatientsPage />} />
+        <Route path="/insurances/*" element={<InsurancesPage />} />
       </Routes>
     </>
   );
