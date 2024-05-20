@@ -1,6 +1,8 @@
 from flask import Flask, json, request, jsonify
 from flask_cors import CORS
 import database.db_connector as db
+from route_handlers.insurance_routes import create_insurances, read_insurances, update_insurances, delete_insurances
+
 
 app = Flask(__name__)
 cors = CORS(app, origins='*')
@@ -32,80 +34,26 @@ def patients():
         return results
 
 
+
 @app.route("/api/insurances", methods=['POST', 'GET'])
-def insurances():
-    if request.method == 'POST':
-        try:
-            newInsurance = request.json
-            # print(newInsurance)
-            subscriberName = newInsurance['subscriberName']
-            insCardNum = newInsurance['insCardNum']
-            insGroupNum = newInsurance['insGroupNum']
-
-            query = f"""
-                INSERT INTO Insurances
-                            (subscriberName, insCardNum, insGroupNum)
-                VALUES ('{subscriberName}', '{insCardNum}', '{insGroupNum}')
-            """
-            cursor = db.execute_query(db_connection=db_connection, query=query)
-
-            db_connection.commit()
-
-            return jsonify(message="Insurance created successfully"), 201
-
-        except Exception as e:
-            # Handle errors appropriately
-            print("Error creating insurance:", str(e))
-            return jsonify(error="Error creating insurance"), 500
-
+def insurances_post_get():
     if request.method == 'GET':
-        query = "SELECT * FROM Insurances;"
-        cursor = db.execute_query(db_connection=db_connection, query=query)
+        return read_insurances()
 
-        results = json.dumps(cursor.fetchall())
-
-        return results
-
-
-@app.route("/api/insurances/<int:id>", methods=['DELETE'])
-def delete_insurance(id):
-    try:
-        query = f"DELETE FROM Insurances WHERE insuranceID = '{id}';"
-        db.execute_query(db_connection=db_connection, query=query)
-        db_connection.commit()
-
-        return jsonify(message="Insurance deleted successfully"), 204
-    except Exception as e:
-        # Handle errors appropriately
-        print("Error creating insurance:", str(e))
-        # If the insurance with the given ID is not found, return a 404 error
-        return jsonify(message="Insurance not found"), 404
+    if request.method == 'POST':
+        newInsurance = request.json
+        return create_insurances(newInsurance)     
 
 
-@app.route("/api/insurances/<int:id>", methods=['PUT'])
-def edit_insurance(id):
-    newInsurance = request.json
-    # print(newInsurance)
-    subscriberName = newInsurance['subscriberName']
-    insCardNum = newInsurance['insCardNum']
-    insGroupNum = newInsurance['insGroupNum']
-    try:
-        query = f"""
-        UPDATE Insurances
-        SET subscriberName = '{subscriberName}', insCardNum = '{insCardNum}',
-                                insGroupNum = '{insGroupNum}'
-        WHERE insuranceID = '{id}';
-        """
-        db.execute_query(db_connection=db_connection, query=query)
-        db_connection.commit()
+@app.route("/api/insurances/<int:id>", methods=['DELETE', 'PUT'])
+def insurances_del_put(id):
+    if request.method == 'DELETE':
+        return delete_insurances(id)
 
-        return jsonify(message="Insurance updated successfully."), 200
+    if request.method == "PUT":
+        newInsurance = request.json
+        return update_insurances(id, newInsurance)
 
-    except Exception as e:
-        # Handle errors appropriately
-        print("Error creating insurance:", str(e))
-        # If the insurance with the given ID is not found, return a 404 error
-        return jsonify(message="Insurance not found"), 404
 
 
 if __name__ == "__main__":
