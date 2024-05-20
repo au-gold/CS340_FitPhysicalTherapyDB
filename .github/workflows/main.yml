@@ -20,7 +20,7 @@ jobs:
 
       - name: Deploy to remote server
         run: |
-          ssh kimmint@access.engr.oregonstate.edu << 'EOF'
+          ssh -o StrictHostKeyChecking=no kimmint@access.engr.oregonstate.edu << 'EOF'
           cd ~/groupwork/CS340_FitPhysicalTherapyDB
           touch test.txt
           # git pull origin main
