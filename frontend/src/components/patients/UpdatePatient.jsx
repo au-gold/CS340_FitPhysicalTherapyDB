@@ -71,7 +71,7 @@ const UpdatePatient = () => {
     <div>
       <h2>Update Patient</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label>First Name:</label>
           <input
             type="text"
@@ -81,7 +81,7 @@ const UpdatePatient = () => {
             defaultValue={prevPatient.firstName}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Last Name:</label>
           <input
             type="text"
@@ -91,7 +91,7 @@ const UpdatePatient = () => {
             defaultValue={prevPatient.lastName}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Date of Birth:</label>
           <input
             type="date"
@@ -100,7 +100,7 @@ const UpdatePatient = () => {
             defaultValue={prevPatient.dateOfBirth}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Address:</label>
           <input
             type="text"
@@ -110,7 +110,7 @@ const UpdatePatient = () => {
             defaultValue={prevPatient.address}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Phone Number:</label>
           <input
             type="text"
@@ -120,7 +120,7 @@ const UpdatePatient = () => {
             defaultValue={prevPatient.phoneNumber}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Insurance ID:</label>
           <input
             type="text"

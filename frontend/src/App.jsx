@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import PatientsPage from "./pages/PatientsPage";
 import InsurancesPage from "./pages/InsurancesPage";
+import ExercisesPage from "./pages/ExercisesPage";
 import Navbar from "./components/navbar/NavBar";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/patients/*" element={<PatientsPage />} />
         <Route path="/insurances/*" element={<InsurancesPage />} />
+        <Route path="/exercises/*" element={<ExercisesPage />} />
       </Routes>
     </>
   );

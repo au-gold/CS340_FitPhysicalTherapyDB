@@ -6,16 +6,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-const UpdateInsurance = () => {
+const UpdateExercise = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const prevInsurance = location.state.insurance;
+  const prevExercise = location.state.exercise;
 
   const [formData, setFormData] = useState({
-    subscriberName: prevInsurance.subscriberName || '',
-    insCardNum: prevInsurance.insCardNum || '',
-    insGroupNum: prevInsurance.insGroupNum || '',
+    exerciseName: prevExercise.exerciseName || '',
+    targetMuscleGroup: prevExercise.targetMuscleGroup || '',
+    description: prevExercise.description || '',
   });
 
   const handleInputChange = (event) => {
@@ -27,11 +27,11 @@ const UpdateInsurance = () => {
   };
 
   function isUpdate(){
-    // Check if formData is equal to prevInsurance
+    // Check if formData is equal to prevExercise
     if (JSON.stringify(formData) === JSON.stringify({
-      subscriberName: prevInsurance.subscriberName || '',
-      insCardNum: prevInsurance.insCardNum || '',
-      insGroupNum: prevInsurance.insGroupNum || '',
+      exerciseName: prevExercise.exerciseName || '',
+      targetMuscleGroup: prevExercise.targetMuscleGroup || '',
+      description: prevExercise.description || '',
     })) {
       alert("No changes made.");
       return false;
@@ -42,61 +42,61 @@ const UpdateInsurance = () => {
   const handleSubmit = async (event) => {
     // Stop default form behavior which is to reload the page
     event.preventDefault();
-    // Check if formData is equal to prevInsurance
+    // Check if formData is equal to prevExercise
     if (isUpdate()){
       try {
-        const URL = import.meta.env.VITE_API_URL + "insurances/" + id;
-        // const URL = "http://127.0.0.1:9112/api/insurances";
+        const URL = import.meta.env.VITE_API_URL + "exercises/" + id;
+        // const URL = "http://127.0.0.1:9112/api/exercises";
         const response = await axios.put(URL, formData);
         if (response.status !== 200) {
-          alert("Error updating insurance");
+          alert("Error updating exercise");
         } else {
           alert(response.data.message);
-          // Redirect to insurances page
-          navigate("/insurances");
+          // Redirect to exercises page
+          navigate("/exercises");
         }
       } catch (err) {
-        console.log("Error updating insurance:", err);
+        console.log("Error updating exercise:", err);
       }
     }
   };
 
   return (
     <div>
-      <h2>Update Insurance</h2>
+      <h2>Update Exercise</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Subscriber Name:</label>
           <input
             type="text"
-            name="subscriberName"
+            name="exerciseName"
             onChange={handleInputChange}
             required
-            defaultValue={prevInsurance.subscriberName}
+            defaultValue={prevExercise.exerciseName}
           />
         </div>
         <div className="form-group">
-          <label>Insurance Card Number:</label>
+          <label>Target Muscle Group:</label>
           <input
             type="text"
-            name="insCardNum"
+            name="targetMuscleGroup"
             onChange={handleInputChange}
             required
-            defaultValue={prevInsurance.insCardNum}
+            defaultValue={prevExercise.targetMuscleGroup}
           />
         </div>
         <div className="form-group">
-          <label>Insurance Group Number:</label>
-          <input
+          <label>Exercise Descriptionr:</label>
+          <textarea
             type="text"
-            name="insGroupNum"
+            name="description"
             onChange={handleInputChange}
             required
-            defaultValue={prevInsurance.insGroupNum}
+            defaultValue={prevExercise.description}
           />
         </div>
 
-        <button type="button" onClick={() => navigate("/insurances")}>
+        <button type="button" onClick={() => navigate("/exercises")}>
           Cancel
         </button>
         <button type="submit">Update</button>
@@ -105,4 +105,4 @@ const UpdateInsurance = () => {
   );
 };
 
-export default UpdateInsurance;
+export default UpdateExercise;

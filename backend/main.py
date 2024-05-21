@@ -55,6 +55,17 @@ def insurances_del_put(id):
         return update_insurances(id, newInsurance)
 
 
+@app.route("/api/exercises", methods=['POST', 'GET'])
+def exercises_post_get():
+
+    if request.method == 'GET':
+        query = "SELECT * FROM Exercises"
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        results = json.dumps(cursor.fetchall())
+
+        # Sends the results back to the web browser.
+        return results
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=58888)

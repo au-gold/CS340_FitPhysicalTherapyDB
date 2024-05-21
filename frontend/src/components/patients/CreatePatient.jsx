@@ -71,6 +71,7 @@ function CreatePatient() {
     <>
       <h2>Create a Patient</h2>
       <form onSubmit={handleSubmit}>
+      <div className="form-group">
         <label htmlFor="firstName">First Name</label>
         <input
           type="text"
@@ -78,6 +79,8 @@ function CreatePatient() {
           defaultValue={formData.firstName}
           onChange={handleInputChange}
         />
+        </div>
+        <div className="form-group">
         <label htmlFor="lastName">Last Name</label>
         <input
           type="text"
@@ -85,6 +88,8 @@ function CreatePatient() {
           defaultValue={formData.lastName}
           onChange={handleInputChange}
         />
+        </div>
+        <div className="form-group">
         <label htmlFor="dateOfBirth">Date of birth</label>
         <input
           type="date"
@@ -92,6 +97,8 @@ function CreatePatient() {
           value={formData.dateOfBirth}
           onChange={handleInputChange}
         />
+        </div>
+        <div className="form-group">
         <label htmlFor="address">Address</label>
         <input 
           type="text" 
@@ -99,20 +106,27 @@ function CreatePatient() {
           value={formData.address} 
           onChange={handleInputChange} 
         />
-        <label htmlFor="phoneNumber">Phone Number</label>
+        </div>
+        <div className="form-group">
+          <label htmlFor="phoneNumber">Phone Number</label>
         <input 
           type="text" 
           name="phoneNumber" 
           value={formData.phoneNumber} 
           onChange={handleInputChange} 
         />
-        <label htmlFor="insuranceID">Insurance ID</label>
+        </div>
+        
+        <div className="form-group">
+          <label htmlFor="insuranceID">Insurance ID</label>
         <input 
           type="text" 
           name="insuranceID" 
           value={formData.insuranceID} 
           onChange={handleInputChange} 
         />
+        </div>
+        
         <button type="submit">Create a Patient</button>
       </form>
     </>
