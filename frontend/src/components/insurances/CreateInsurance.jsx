@@ -61,31 +61,37 @@ function CreateInsurance() {
 
   return (
     <>
-      <h2>Create a Insurance</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="subscriberName">Subscriber Name</label>
-        <input
-          type="text"
-          name="subscriberName"
-          defaultValue={formData.subscriberName}
-          onChange={handleInputChange}
-        />
-        <label htmlFor="insCardNum">Insurance Card Number</label>
-        <input
-          type="text"
-          name="insCardNum"
-          defaultValue={formData.insCardNum}
-          onChange={handleInputChange}
-        />
-        <label htmlFor="insGroupNum">Insurance Group Number</label>
-        <input 
-          type="text" 
-          name="insGroupNum" 
-          value={formData.insGroupNum} 
-          onChange={handleInputChange} 
-        />
-        <button type="submit">Create a Insurance</button>
-      </form>
+      <h2>Create an Insurance</h2>
+        <form onSubmit={handleSubmit} >
+          <div className="form-group">
+            <label htmlFor="subscriberName">Subscriber Name </label>
+            <input
+              type="text"
+              name="subscriberName"
+              defaultValue={formData.subscriberName}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="insCardNum">Insurance Card Number </label>
+            <input
+              type="text"
+              name="insCardNum"
+              defaultValue={formData.insCardNum}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="insGroupNum">Insurance Group Number </label>
+            <input 
+              type="text" 
+              name="insGroupNum" 
+              value={formData.insGroupNum} 
+              onChange={handleInputChange} 
+            />
+          </div>
+          <button type="submit">Create an Insurance</button>
+        </form>
     </>
   );
 }

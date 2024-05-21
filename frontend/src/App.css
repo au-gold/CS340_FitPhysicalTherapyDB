@@ -14,11 +14,11 @@ html li {
   margin-top: 25px;
 }
 
-.form{
+/* .form{
     margin: auto;
-    max-width:400px;
+    /* max-width:400px; */
     text-align: center
-}
+} */
 
 input[type='submit'], button, [aria-label]{
   cursor: pointer;
@@ -51,4 +51,24 @@ tr:hover {
 
 .to-do{
     background: transparent !important;
+}
+
+/* form.form-group {
+  display: table;
+  margin-bottom: 15px;
+} */
+
+div.form-group {
+  display: table-row;
+}
+
+label, input {
+  display: table-cell;
+  margin-bottom: 10px;
+  /* width: 50%; */
+}
+
+
+label {
+  padding-right: 10px;
 }

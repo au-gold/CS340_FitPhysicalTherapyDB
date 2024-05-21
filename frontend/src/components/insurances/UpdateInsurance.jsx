@@ -65,7 +65,7 @@ const UpdateInsurance = () => {
     <div>
       <h2>Update Insurance</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label>Subscriber Name:</label>
           <input
             type="text"
@@ -75,7 +75,7 @@ const UpdateInsurance = () => {
             defaultValue={prevInsurance.subscriberName}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Insurance Card Number:</label>
           <input
             type="text"
@@ -85,7 +85,7 @@ const UpdateInsurance = () => {
             defaultValue={prevInsurance.insCardNum}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Insurance Group Number:</label>
           <input
             type="text"
