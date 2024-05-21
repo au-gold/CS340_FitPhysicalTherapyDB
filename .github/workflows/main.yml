@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
@@ -20,9 +20,17 @@ jobs:
 
       - name: Deploy to remote server
         run: |
-          ssh kimmint@access.engr.oregonstate.edu << 'EOF'
+          ssh -o StrictHostKeyChecking=no kimmint@access.engr.oregonstate.edu << 'EOF'
           cd ~/groupwork/CS340_FitPhysicalTherapyDB
-          touch test.txt
-          # git pull origin main
-          # Add any additional build or restart commands here
+          git pull origin main
+          cd backend
+          source ./venv/bin/activate
+          ps -u $USER | grep gunicorn | grep -v grep | awk '{print $2}' | xargs -r kill
+          gunicorn -b 0.0.0.0:58888 -D main:app
+          cd ../frontend
+          npm install
+          npm run build
+          alias forever='./node_modules/forever/bin/forever'
+          forever stopall
+          npm run serve
           EOF
