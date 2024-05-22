@@ -1,16 +1,14 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import dotenv from 'dotenv'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import dotenv from 'dotenv';
 
-dotenv.config()
+// Load environment variables from .env file
+dotenv.config();
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  server:{
-    port: parseInt(process.env.VITE_PORT, 10) || 5171
-  },
   plugins: [react()],
-  esbuild: {
-    loader: "jsx"
- },
-})
+  server: {
+    port: process.env.VITE_PORT || 58889, // Use the port defined in the .env file or default to 3000
+  },
+});
+
