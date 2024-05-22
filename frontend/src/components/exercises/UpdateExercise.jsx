@@ -66,7 +66,7 @@ const UpdateExercise = () => {
       <h2>Update Exercise</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Subscriber Name:</label>
+          <label>Exercise Name:</label>
           <input
             type="text"
             name="exerciseName"
