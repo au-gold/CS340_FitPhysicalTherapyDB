@@ -1,12 +1,20 @@
-from flask import Flask, json, request, jsonify
+from flask import Flask, json, request
 from flask_cors import CORS
 import database.db_connector as db
 from route_handlers.insurance_routes import create_insurances, read_insurances, update_insurances, delete_insurances
 from time import sleep
+import logging
+
 
 app = Flask(__name__)
 cors = CORS(app, origins='*')
 db_connection = db.connect_to_database()
+
+
+if __name__ != '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
 
 
 @app.route("/api/patients", methods=['POST', 'GET'])
