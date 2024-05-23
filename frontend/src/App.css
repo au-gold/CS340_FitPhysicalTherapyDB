@@ -16,8 +16,8 @@ html li {
 
 /* .form{
     margin: auto;
-    /* max-width:400px; */
-    text-align: center
+    max-width:400px;
+    text-align: center;
 } */
 
 input[type='submit'], button, [aria-label]{

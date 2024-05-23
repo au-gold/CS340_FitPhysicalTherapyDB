@@ -9,6 +9,7 @@ import InsurancesPage from "./pages/InsurancesPage";
 import ExercisesPage from "./pages/ExercisesPage";
 import AppointmentsPage from "./pages/AppointmentsPage"; 
 import TherapistsPage from "./pages/TherapistsPage"; 
+import TreatmentPlansPage from "./pages/TreatmentPlansPage";
 import Navbar from "./components/navbar/NavBar";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/exercises/*" element={<ExercisesPage />} />
         <Route path="/appointments/*" element={<AppointmentsPage />} /> 
         <Route path="/therapists/*" element={<TherapistsPage />} /> 
+        <Route path="/treatmentPlans/*" element={<TreatmentPlansPage />} /> 
       </Routes>
     </>
   );

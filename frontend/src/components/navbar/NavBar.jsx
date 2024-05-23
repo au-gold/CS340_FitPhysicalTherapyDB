@@ -14,7 +14,8 @@ const Navbar = () => {
           <Link to="/therapists"> Therapists</Link> |
           <Link to="/appointments"> Appointments</Link> |
           <Link to="/insurances"> Insurances</Link> |
-          <Link to="/exercises"> Exercises</Link> 
+          <Link to="/exercises"> Exercises</Link> |
+          <Link to="/treatmentPlans"> Treatment Plans</Link> 
       </nav>
     </header>
   );
