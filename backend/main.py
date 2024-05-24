@@ -11,7 +11,7 @@ from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
 app = Flask(__name__)
 app.json_encoder = CustomJSONEncoder  # Set the custom encoder
 cors = CORS(app, origins='*')
-db_connection = db.connect_to_database()
+# db_connection = db.connect_to_database()
 
 # Configure logging
 if __name__ != '__main__':
@@ -36,7 +36,8 @@ def patients():
                 Patients AS p
             LEFT JOIN
                 Insurances as i ON p.insuranceID = i.insuranceID;
-        """
+            """
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
 
@@ -68,6 +69,7 @@ def insurances_del_put(id):
 def exercises_post_get():
     if request.method == 'GET':
         query = "SELECT * FROM Exercises"
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
 
@@ -79,6 +81,7 @@ def exercises_post_get():
 def treatmentPlans_post_get():
     if request.method == 'GET':
         query = "SELECT * FROM TreatmentPlans"
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
 
@@ -99,6 +102,7 @@ def treatmentPlansExercises_post_get():
             INNER JOIN
                 Exercises ON Exercises.exerciseID = TreatmentExercises.exerciseID;
         """
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
 
