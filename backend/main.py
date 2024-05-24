@@ -8,7 +8,7 @@ import logging
 
 app = Flask(__name__)
 cors = CORS(app, origins='*')
-db_connection = db.connect_to_database()
+# db_connection = db.connect_to_database()
 
 
 if __name__ != '__main__':
@@ -35,6 +35,7 @@ def patients():
                 LEFT JOIN
                     Insurances as i ON p.insuranceID = i.insuranceID;
                 """
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = json.dumps(cursor.fetchall())
 
@@ -68,6 +69,7 @@ def exercises_post_get():
 
     if request.method == 'GET':
         query = "SELECT * FROM Exercises"
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = json.dumps(cursor.fetchall())
 
@@ -80,6 +82,7 @@ def treatmentPlans_post_get():
 
     if request.method == 'GET':
         query = "SELECT * FROM TreatmentPlans"
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = json.dumps(cursor.fetchall())
 
@@ -100,32 +103,8 @@ def treatmentPlansExercises_post_get():
                         Exercises ON Exercises.exerciseID =
                             TreatmentExercises.exerciseID;
         """
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = json.dumps(cursor.fetchall())
-
-        # Sends the results back to the web browser.
-        return results
-
-
-@app.route("/api/appointments", methods=['POST', 'GET'])
-def appointments_post_get():
-    if request.method == 'GET':
-        query = """SELECT A.appointmentID, A.patientID,
-                    P.firstName AS patientfirstName,
-                    P.lastName AS patientlastName,
-                    A.therapistID, T.firstName AS therapistfirstName,
-                    T.lastName AS therapistlastName,
-                    A.treatmentPlanID, A.appointmentDate,
-                    DATE_FORMAT(A.appointmentTime, '%h:%i %p') AS appointmentTime
-                   FROM Appointments AS A
-                   JOIN
-                    Patients AS P on A.patientID = P.patientID
-                   JOIN
-                    Therapists AS T on A.therapistID = T.therapistID;
-        """
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(query)
         results = json.dumps(cursor.fetchall())
 
         # Sends the results back to the web browser.
