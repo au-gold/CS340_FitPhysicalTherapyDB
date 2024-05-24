@@ -107,11 +107,7 @@ def treatmentPlansExercises_post_get():
 
 
 @app.route("/api/therapists", methods=['POST', 'GET'])
-<<<<<<< Updated upstream
-def therapist_post_get():
-=======
 def therapists_post_get():
->>>>>>> Stashed changes
     if request.method == 'GET':
         return read_therapists()
     if request.method == 'POST':
