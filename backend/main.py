@@ -106,7 +106,6 @@ def treatmentPlansExercises_post_get():
 
 @app.route("/api/therapists", methods=['POST', 'GET'])
 def therapist_post_get():
-    sleep(0.2)
     if request.method == 'GET':
         query = "SELECT * FROM Therapists;"
         try:
@@ -121,7 +120,6 @@ def therapist_post_get():
 
 @app.route("/api/appointments", methods=['POST', 'GET'])
 def appointments_post_get():
-    sleep(0.2)
     if request.method == 'GET':
         query = """
             SELECT
