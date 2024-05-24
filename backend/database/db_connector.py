@@ -4,6 +4,7 @@
 import MySQLdb
 import os
 from dotenv import load_dotenv, find_dotenv
+import MySQLdb
 
 # Load our environment variables from the .env file in the root of our project.
 load_dotenv(find_dotenv())
@@ -51,18 +52,24 @@ def execute_query(db_connection = None, query = None, query_params = ()):
     for q in query_params:
         params = params + (q)
     '''
-    #TODO: Sanitize the query before executing it!!!
-    cursor.execute(query, query_params)
-    # this will actually commit any changes to the database. without this no
-    # changes will be committed!
-    db_connection.commit();
+    try:
+        cursor.execute(query, query_params)
+        db_connection.commit()
+    except MySQLdb.ProgrammingError as e:
+        db_connection.rollback()
+        raise e
+    finally:
+        while db_connection.next_result() == 0:
+            pass  # This ensures all results are fetched
+
     return cursor
+
 
 if __name__ == '__main__':
     print("Executing a sample query on the database using the credentials from db_credentials.py")
     db = connect_to_database()
     query = "SELECT * from Patients;"
-    results = execute_query(db, query);
+    results = execute_query(db, query)
     print("Printing results of %s" % query)
 
     for r in results.fetchall():

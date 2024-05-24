@@ -12,8 +12,6 @@ const AppointmentTable = () => {
   const fetchAppointments = async () => {
     try {
       const URL = import.meta.env.VITE_API_URL + "appointments";
-      console.debug(URL)
-      // const URL = "http://127.0.0.1:9112/api/appointments";
       const response = await axios.get(URL);
       setAppointments(response.data);
     } catch (error) {
@@ -31,7 +29,10 @@ const AppointmentTable = () => {
   };
 
   const formatTime = (timeString) => {
-    return new Date(`1970-01-01T${timeString}Z`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const [hours, minutes, seconds] = timeString.split(':');
+    const date = new Date();
+    date.setHours(hours, minutes, seconds);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
@@ -46,6 +47,7 @@ const AppointmentTable = () => {
         <table>
           <thead>
             <tr>
+            <th>Appointment ID</th>
               <th>Patient ID</th>
               <th>Patient's First Name</th>
               <th>Patient's Last Name</th>
