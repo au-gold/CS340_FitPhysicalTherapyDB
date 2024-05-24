@@ -107,5 +107,30 @@ def treatmentPlansExercises_post_get():
         return results
 
 
+@app.route("/api/appointments", methods=['POST', 'GET'])
+def appointments_post_get():
+    if request.method == 'GET':
+        query = """SELECT A.appointmentID, A.patientID,
+                    P.firstName AS patientfirstName,
+                    P.lastName AS patientlastName,
+                    A.therapistID, T.firstName AS therapistfirstName,
+                    T.lastName AS therapistlastName,
+                    A.treatmentPlanID, A.appointmentDate,
+                    DATE_FORMAT(A.appointmentTime, '%h:%i %p') AS appointmentTime
+                   FROM Appointments AS A
+                   JOIN
+                    Patients AS P on A.patientID = P.patientID
+                   JOIN
+                    Therapists AS T on A.therapistID = T.therapistID;
+        """
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        # cursor = db_connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(query)
+        results = json.dumps(cursor.fetchall())
+
+        # Sends the results back to the web browser.
+        return results
+
+
 if __name__ == "__main__":
-    app.run(debug=True, port=58888, host='0.0.0.0')
+    app.run(debug=True, port=58888)
