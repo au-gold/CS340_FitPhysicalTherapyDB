@@ -13,20 +13,19 @@ const TableRow = ({ appointment, fetchAppointments }) => {
   // Redirect to edit appointment page
   const handleEdit = () => {
     // We can access the id (and query the appointment) with useParams() in the UpdatePatient component
-    navigate("/appointments/edit/" + appointment.id, { state: { appointment } });
+    navigate("/appointments/edit/" + appointment.appointmentID, { state: { appointment } });
   };
 
   const deleteRow = async () => {
     try {
-      const URL = import.meta.env.VITE_API_URL + "appointments/" + appointment.id;
-      // const URL = "http://127.0.0.1:9112/api/appointment";
+      const URL = import.meta.env.VITE_API_URL + "appointments/" + appointment.appointmentID;
       const response = await axios.delete(URL);
       // Ensure that the appointment was deleted successfully
       if (response.status === 204) {
         alert("Appointment deleted successfully");
       }
     } catch (err) {
-      alert(err.response.data.error || "Error deleting appontment");
+      alert(err.response.data.error || "Error deleting appointment");
       console.log(err);
     }
     fetchAppointments();
@@ -34,12 +33,13 @@ const TableRow = ({ appointment, fetchAppointments }) => {
 
   return (
     <tr key={appointment.appointmentID}>
+      <td>{appointment.appointmentID}</td>
       <td>{appointment.patientID}</td>
-      <td>{appointment.patientfirstName}</td>
-      <td>{appointment.patientlastName}</td>
+      <td>{appointment.patientFirstName}</td>
+      <td>{appointment.patientLastName}</td>
       <td>{appointment.therapistID}</td>
-      <td>{appointment.therapistfirstName}</td>
-      <td>{appointment.therapistlastName}</td>
+      <td>{appointment.therapistFirstName}</td>
+      <td>{appointment.therapistLastName}</td>
       <td>{appointment.treatmentPlanID}</td>
       <td>{appointment.appointmentDate}</td>
       <td>{appointment.appointmentTime}</td>
