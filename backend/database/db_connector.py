@@ -52,13 +52,6 @@ def execute_query(db_connection = None, query = None, query_params = ()):
     for q in query_params:
         params = params + (q)
     '''
-<<<<<<< HEAD
-    #TODO: Sanitize the query before executing it!!!
-    cursor.execute(query, query_params)
-    # this will actually commit any changes to the database. without this no
-    # changes will be committed!
-    db_connection.commit()
-=======
     try:
         cursor.execute(query, query_params)
         db_connection.commit()
@@ -69,7 +62,6 @@ def execute_query(db_connection = None, query = None, query_params = ()):
         while db_connection.next_result() == 0:
             pass  # This ensures all results are fetched
 
->>>>>>> main
     return cursor
 
 

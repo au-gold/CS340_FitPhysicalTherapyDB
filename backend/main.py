@@ -113,6 +113,7 @@ def therapist_post_get():
     if request.method == 'GET':
         query = "SELECT * FROM Therapists;"
         try:
+            db_connection = db.connect_to_database()
             cursor = db.execute_query(db_connection=db_connection, query=query)
             results = cursor.fetchall()
             app.logger.info(f"Results: {results}")
