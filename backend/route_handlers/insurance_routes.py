@@ -2,7 +2,7 @@ from flask import json, jsonify
 import database.db_connector as db
 
 
-db_connection = db.connect_to_database()
+# db_connection = db.connect_to_database()
 
 
 def create_insurances(newInsurance):
@@ -17,6 +17,7 @@ def create_insurances(newInsurance):
                         (subscriberName, insCardNum, insGroupNum)
             VALUES ('{subscriberName}', '{insCardNum}', '{insGroupNum}')
         """
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
 
         db_connection.commit()
@@ -31,6 +32,7 @@ def create_insurances(newInsurance):
 
 def read_insurances():
     query = "SELECT * FROM Insurances;"
+    db_connection = db.connect_to_database()
     cursor = db.execute_query(db_connection=db_connection, query=query)
 
     results = json.dumps(cursor.fetchall())
@@ -50,6 +52,7 @@ def update_insurances(id, newInsurance):
                                 insGroupNum = '{insGroupNum}'
         WHERE insuranceID = '{id}';
         """
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
@@ -65,6 +68,7 @@ def update_insurances(id, newInsurance):
 def delete_insurances(id):
     try:
         query = f"DELETE FROM Insurances WHERE insuranceID = '{id}';"
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
