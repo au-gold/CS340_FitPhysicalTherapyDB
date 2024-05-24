@@ -12,6 +12,7 @@ const AppointmentTable = () => {
   const fetchAppointments = async () => {
     try {
       const URL = import.meta.env.VITE_API_URL + "appointments";
+      console.debug(URL)
       const response = await axios.get(URL);
       setAppointments(response.data);
     } catch (error) {
@@ -29,9 +30,9 @@ const AppointmentTable = () => {
   };
 
   const formatTime = (timeString) => {
-    const [hours, minutes, seconds] = timeString.split(':');
+    const [hours, minutes] = timeString.split(":");
     const date = new Date();
-    date.setHours(hours, minutes, seconds);
+    date.setHours(hours, minutes, 0);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
@@ -47,7 +48,7 @@ const AppointmentTable = () => {
         <table>
           <thead>
             <tr>
-            <th>Appointment ID</th>
+              <th>Appointment ID</th>
               <th>Patient ID</th>
               <th>Patient's First Name</th>
               <th>Patient's Last Name</th>
@@ -64,12 +65,12 @@ const AppointmentTable = () => {
           <tbody>
             {appointments.map((appointment) => (
               <TableRow key={appointment.appointmentID} 
-              appointment={{ 
-                ...appointment, 
-                appointmentDate: formatDate(appointment.appointmentDate),
-                appointmentTime: formatTime(appointment.appointmentTime),
-              }}
-              fetchAppointments={fetchAppointments} />
+                appointment={{ 
+                  ...appointment, 
+                  appointmentDate: formatDate(appointment.appointmentDate),
+                  appointmentTime: formatTime(appointment.appointmentTime),
+                }}
+                fetchAppointments={fetchAppointments} />
             ))}
           </tbody>
         </table>

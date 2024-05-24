@@ -7,29 +7,29 @@ import { BiEditAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
-const TableRow = ({ therapist, fetchtherapists }) => {
+const TableRow = ({ therapist, fetchTherapists }) => {
   // Hook that allows us to navigate programmatically
   const navigate = useNavigate();
+
   // Redirect to edit therapist page
   const handleEdit = () => {
     // We can access the id (and query the therapist) with useParams() in the UpdateTherapist component
-    navigate("/therapists/edit/" + therapist.id, { state: { therapist } });
+    navigate(`/therapists/edit/${therapist.therapistID}`, { state: { therapist } });
   };
 
   const deleteRow = async () => {
     try {
-      const URL = import.meta.env.VITE_API_URL + "therapists/" + therapist.id;
-      // const URL = "http://127.0.0.1:9112/api/therapists";
+      const URL = import.meta.env.VITE_API_URL + "therapists/" + therapist.therapistID;
       const response = await axios.delete(URL);
       // Ensure that the therapist was deleted successfully
       if (response.status === 204) {
         alert("Therapist deleted successfully");
+        fetchTherapists();
       }
     } catch (err) {
-      alert(err.response.data.error || "Error deleting therapist");
+      alert(err.response?.data?.error || "Error deleting therapist");
       console.log(err);
     }
-    fetchtherapists();
   };
 
   return (

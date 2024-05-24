@@ -53,7 +53,7 @@ const UpdateTherapist = () => {
         } else {
           alert(response.data.message);
           // Redirect to therapists page
-          navigate("therapists");
+          navigate("/therapists");
         }
       } catch (err) {
         console.log("Error updating therapist:", err);
@@ -63,7 +63,7 @@ const UpdateTherapist = () => {
 
   return (
     <div>
-      <h2>Update Patient</h2>
+      <h2>Update Therapist</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>First Name:</label>
