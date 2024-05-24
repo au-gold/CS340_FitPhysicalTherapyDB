@@ -73,4 +73,4 @@ if __name__ == '__main__':
     print("Printing results of %s" % query)
 
     for r in results.fetchall():
-        print(r)
+        print(r) 
