@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import database.db_connector as db
 from route_handlers.insurance_routes import create_insurances, read_insurances, update_insurances, delete_insurances
+from route_handlers.appointment_routes import create_appointments, read_appointments, update_appointments, delete_appointments
+from route_handlers.therapist_routes import create_therapists, read_therapists, update_therapists, delete_therapists
 from time import sleep
 import logging
 from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
@@ -9,7 +11,7 @@ from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
 app = Flask(__name__)
 app.json_encoder = CustomJSONEncoder  # Set the custom encoder
 cors = CORS(app, origins='*')
-db_connection = db.connect_to_database()
+# db_connection = db.connect_to_database()
 
 # Configure logging
 if __name__ != '__main__':
@@ -34,7 +36,8 @@ def patients():
                 Patients AS p
             LEFT JOIN
                 Insurances as i ON p.insuranceID = i.insuranceID;
-        """
+            """
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
 
@@ -66,6 +69,7 @@ def insurances_del_put(id):
 def exercises_post_get():
     if request.method == 'GET':
         query = "SELECT * FROM Exercises"
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
 
@@ -77,6 +81,7 @@ def exercises_post_get():
 def treatmentPlans_post_get():
     if request.method == 'GET':
         query = "SELECT * FROM TreatmentPlans"
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
 
@@ -97,6 +102,7 @@ def treatmentPlansExercises_post_get():
             INNER JOIN
                 Exercises ON Exercises.exerciseID = TreatmentExercises.exerciseID;
         """
+        db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
 
@@ -105,48 +111,38 @@ def treatmentPlansExercises_post_get():
 
 
 @app.route("/api/therapists", methods=['POST', 'GET'])
-def therapist_post_get():
-    sleep(0.2)
+def therapists_post_get():
     if request.method == 'GET':
-        query = "SELECT * FROM Therapists;"
-        try:
-            cursor = db.execute_query(db_connection=db_connection, query=query)
-            results = cursor.fetchall()
-            app.logger.info(f"Results: {results}")
-            return jsonify_with_encoder(results)
-        except Exception as e:
-            app.logger.error(f"Error fetching therapists: {str(e)}")
-            return jsonify({"error": "Error fetching therapists"}), 500
+        return read_therapists()
+    if request.method == 'POST':
+        newTherapist = request.json
+        return create_therapists(newTherapist)
 
+@app.route("/api/therapists/<int:id>", methods=['DELETE', 'PUT'])
+def therapists_del_put(id):
+    if request.method == 'DELETE':
+        return delete_therapists(id)
+    if request.method == 'PUT':
+        newTherapist = request.json
+        return update_therapists(id, newTherapist)
+    
 
 @app.route("/api/appointments", methods=['POST', 'GET'])
 def appointments_post_get():
-    sleep(0.2)
     if request.method == 'GET':
-        query = """
-            SELECT
-                Appointments.appointmentID,
-                Appointments.appointmentDate,
-                Appointments.appointmentTime,
-                Patients.patientID,
-                Patients.firstName AS patientFirstName,
-                Patients.lastName AS patientLastName,
-                Therapists.therapistID,
-                Therapists.firstName AS therapistFirstName,
-                Therapists.lastName AS therapistLastName,
-                TreatmentPlans.treatmentPlanID,
-                TreatmentPlans.duration,
-                TreatmentPlans.frequency
-            FROM Appointments
-            INNER JOIN Patients ON Appointments.patientID = Patients.patientID
-            INNER JOIN Therapists ON Appointments.therapistID = Therapists.therapistID
-            INNER JOIN TreatmentPlans ON Appointments.treatmentPlanID = TreatmentPlans.treatmentPlanID;
-        """
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
+        return read_appointments()
+    if request.method == 'POST':
+        newAppointment = request.json
+        return create_appointments(newAppointment)
 
-        # Sends the results back to the web browser.
-        return jsonify_with_encoder(results)
+@app.route("/api/appointments/<int:id>", methods=['DELETE', 'PUT'])
+def appointments_del_put(id):
+    if request.method == 'DELETE':
+        return delete_appointments(id)
+    if request.method == 'PUT':
+        newAppointment = request.json
+        return update_appointments(id, newAppointment)
+
 
 
 

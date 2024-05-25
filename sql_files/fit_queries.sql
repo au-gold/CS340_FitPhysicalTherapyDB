@@ -1,6 +1,17 @@
 -- PATIENT QUERIES
 -- Display patient info
-SELECT * FROM Patients WHERE patientID = :patientID;
+SELECT
+    p.patientID,
+    p.firstName,
+    p.lastName,
+    p.dateOfBirth,
+    p.address,
+    p.phoneNumber,
+    IFNULL(i.insCardNum, 'NULL') AS insCardNum
+FROM
+    Patients AS p
+LEFT JOIN
+    Insurances as i ON p.insuranceID = i.insuranceID;
 
 -- Adds a new patient
 INSERT INTO Patients (firstName, lastName, dateOfBirth, address, phoneNumber, insuranceID) 
@@ -51,7 +62,23 @@ DELETE FROM Insurances WHERE insuranceID = :insuranceID;
 
 --APPOINTMENT QUERIES 
 -- Displays appointment
-SELECT * FROM Appointments WHERE appointmentID = :appointmentID;
+SELECT
+    Appointments.appointmentID,
+    Appointments.appointmentDate,
+    Appointments.appointmentTime,
+    Patients.patientID,
+    Patients.firstName AS patientFirstName,
+    Patients.lastName AS patientLastName,
+    Therapists.therapistID,
+    Therapists.firstName AS therapistFirstName,
+    Therapists.lastName AS therapistLastName,
+    TreatmentPlans.treatmentPlanID,
+    TreatmentPlans.duration,
+    TreatmentPlans.frequency
+FROM Appointments
+INNER JOIN Patients ON Appointments.patientID = Patients.patientID
+INNER JOIN Therapists ON Appointments.therapistID = Therapists.therapistID
+INNER JOIN TreatmentPlans ON Appointments.treatmentPlanID = TreatmentPlans.treatmentPlanID;
 
 -- Adds a new appointment
 INSERT INTO Appointments (patientID, therapistID, treatmentPlanID, date, time) 
