@@ -2,7 +2,7 @@
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -11,27 +11,44 @@ function CreateAppointment() {
 
   const [formData, setFormData] = useState({
     patientID: "",
-    patientfirstName: "",
-    patientlastName: "",
     therapistID:"",
-    therapistfirstName: "",
-    therapistlastName: "",
     treatmentPlanID:"",
     appointmentDate: "",
     appointmentTime: "",
   });
   
+  // Getting the list of patients, therapists and treatmentPlans to show in dropdown list.
+  const [patients, setPatients] = useState([]);
+  const [therapists, setTherapists] = useState([]);
+  const [treatmentPlans, setTreatmentPlans] = useState([]);
+
+  // Store the data into variables to later populate the dropdown
+  useEffect(() => {
+    // Fetch patients
+    axios.get(import.meta.env.VITE_API_URL + "patients")
+      .then(response => setPatients(response.data))
+      .catch(error => console.error("Error fetching patients:", error));
+
+    // Fetch therapists
+    axios.get(import.meta.env.VITE_API_URL + "therapists")
+      .then(response => setTherapists(response.data))
+      .catch(error => console.error("Error fetching therapists:", error));
+
+    // Fetch treatment plans
+    axios.get(import.meta.env.VITE_API_URL + "treatmentPlans")
+      .then(response => setTreatmentPlans(response.data))
+      .catch(error => console.error("Error fetching treatment plans:", error));
+  }, []);
+
+
+
   const handleSubmit = async (e) => {
     // Prevent page reload
     e.preventDefault();
     // Create a new appointment object from the formData
     const newAppointment = {
       patientID: formData.patientID,
-      patientfirstName: formData.patientfirstName,
-      patientlastName: formData.patientlastName,
       therapistID: formData.therapistID,
-      therapistfirstName: formData.therapistfirstName,
-      therapistlastName: formData.therapistlastName,
       treatmentPlanID: formData.treatmentPlanID,
       appointmentDate: formData.appointmentDate,
       appointmentTime: formData.appointmentTime,
@@ -39,9 +56,9 @@ function CreateAppointment() {
 
     try {
       const URL = import.meta.env.VITE_API_URL + "appointments";
-      // const URL = "http://127.0.0.1:9112/api/appointments";
       const response = await axios.post(URL, newAppointment);
       if (response.status === 201) {
+        alert(response.data.message);
         navigate("/appointments");
       } else {
         alert("Error creating appointment");
@@ -56,13 +73,9 @@ function CreateAppointment() {
 
   const resetFormFields = () => {
     setFormData({
-      patientID: "",
-      patientfirstName: "",
-      patientlastName: "",
-      therapistID:"",
-      therapistfirstName: "",
-      therapistlastName: "",
-      treatmentPlanID:"",
+      patientID: "default",
+      therapistID:"default",
+      treatmentPlanID:"default",
       appointmentDate: "",
       appointmentTime: "",
     });
@@ -81,67 +94,53 @@ function CreateAppointment() {
       <h2>Create an Appointment</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="patientID">Patient ID</label>
-          <input
-            type="text"
+          <label htmlFor="patientID">Patient</label>
+          <select
             name="patientID"
             value={formData.patientID}
             onChange={handleInputChange}
-          />
+            required
+          >
+            <option value="default" selected>Select a patient</option>
+            {patients.map((patient) => (
+              <option key={patient.patientID} value={patient.patientID}>
+                {patient.firstName} {patient.lastName} (ID: {patient.patientID})
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group">
-          <label htmlFor="patientfirstName">Patient's First Name</label>
-          <input
-            type="text"
-            name="patientfirstName"
-            value={formData.patientfirstName}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="patientlastName">Patient's Last Name</label>
-          <input
-            type="text"
-            name="patientlastName"
-            value={formData.patientlastName}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="therapistID">Therapist ID</label>
-          <input
-            type="text"
+          <label htmlFor="therapistID">Therapist</label>
+          <select
             name="therapistID"
             value={formData.therapistID}
             onChange={handleInputChange}
-          />
+            required
+          >
+            <option value="default" selected>Select a therapist</option>
+            {therapists.map((therapist) => (
+              <option key={therapist.therapistID} value={therapist.therapistID}>
+                {therapist.firstName} {therapist.lastName} (ID: {therapist.therapistID})
+              </option>
+            ))}
+          </select>
         </div>
+
         <div className="form-group">
-          <label htmlFor="therapistfirstName">Therapist's First Name</label>
-          <input
-            type="text"
-            name="therapistfirstName"
-            value={formData.therapistfirstName}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="therapistlastName">Therapist's Last Name</label>
-          <input
-            type="text"
-            name="therapistlastName"
-            value={formData.therapistlastName}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="treatmentPlanID">Treatment Plan ID</label>
-          <input
-            type="text"
+          <label htmlFor="treatmentPlanID">Treatment Plan</label>
+          <select
             name="treatmentPlanID"
             value={formData.treatmentPlanID}
             onChange={handleInputChange}
-          />
+            required
+          >
+            <option value="default" selected>Select a treatment plan</option>
+            {treatmentPlans.map((treatmentPlan) => (
+              <option key={treatmentPlan.treatmentPlanID} value={treatmentPlan.treatmentPlanID}>
+                {treatmentPlan.treatmentPlanID} (Goal: {treatmentPlan.treatmentGoalDesc})
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group">
           <label htmlFor="appointmentDate">Appointment Date</label>
@@ -161,7 +160,11 @@ function CreateAppointment() {
             onChange={handleInputChange}
           />
         </div>
+        
         <button type="submit">Create an Appointment</button>
+        <button type="button" onClick={() => navigate("/appointments")}>
+          Cancel
+        </button>
       </form>
     </>
 

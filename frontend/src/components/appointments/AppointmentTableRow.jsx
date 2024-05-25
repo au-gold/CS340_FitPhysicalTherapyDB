@@ -8,11 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 const TableRow = ({ appointment, fetchAppointments }) => {
-  // Hook that allows us to navigate programmatically
   const navigate = useNavigate();
-  // Redirect to edit appointment page
   const handleEdit = () => {
-    // We can access the id (and query the appointment) with useParams() in the UpdatePatient component
     navigate("/appointments/edit/" + appointment.appointmentID, { state: { appointment } });
   };
 
@@ -20,7 +17,6 @@ const TableRow = ({ appointment, fetchAppointments }) => {
     try {
       const URL = import.meta.env.VITE_API_URL + "appointments/" + appointment.appointmentID;
       const response = await axios.delete(URL);
-      // Ensure that the appointment was deleted successfully
       if (response.status === 204) {
         alert("Appointment deleted successfully");
       }
