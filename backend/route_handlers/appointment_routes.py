@@ -2,7 +2,6 @@ from flask import jsonify
 import database.db_connector as db
 from custom_json_encoder import jsonify_with_encoder
 
-db_connection = db.connect_to_database()
 
 def create_appointments(newAppointment):
     try:
@@ -17,6 +16,7 @@ def create_appointments(newAppointment):
                         (patientID, therapistID, treatmentPlanID, appointmentDate, appointmentTime)
             VALUES ('{patientID}', '{therapistID}', '{treatmentPlanID}', '{appointmentDate}', '{appointmentTime}')
         """
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
@@ -25,6 +25,7 @@ def create_appointments(newAppointment):
     except Exception as e:
         print("Error creating appointment:", str(e))
         return jsonify(error="Error creating appointment"), 500
+
 
 def read_appointments():
     query = """
@@ -46,10 +47,12 @@ def read_appointments():
         INNER JOIN Therapists ON Appointments.therapistID = Therapists.therapistID
         INNER JOIN TreatmentPlans ON Appointments.treatmentPlanID = TreatmentPlans.treatmentPlanID;
     """
+    db_connection = db.connect_to_database()
     cursor = db.execute_query(db_connection=db_connection, query=query)
     results = cursor.fetchall()
 
     return jsonify_with_encoder(results)
+
 
 def update_appointments(id, newAppointment):
     patientID = newAppointment['patientID']
@@ -61,11 +64,12 @@ def update_appointments(id, newAppointment):
     try:
         query = f"""
         UPDATE Appointments
-        SET patientID = '{patientID}', therapistID = '{therapistID}', 
-            treatmentPlanID = '{treatmentPlanID}', appointmentDate = '{appointmentDate}', 
+        SET patientID = '{patientID}', therapistID = '{therapistID}',
+            treatmentPlanID = '{treatmentPlanID}', appointmentDate = '{appointmentDate}',
             appointmentTime = '{appointmentTime}'
         WHERE appointmentID = '{id}';
         """
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
@@ -75,9 +79,11 @@ def update_appointments(id, newAppointment):
         print("Error updating appointment:", str(e))
         return jsonify(message="Appointment not found"), 404
 
+
 def delete_appointments(id):
     try:
         query = f"DELETE FROM Appointments WHERE appointmentID = '{id}';"
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
