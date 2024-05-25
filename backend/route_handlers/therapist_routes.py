@@ -1,7 +1,6 @@
 from flask import jsonify, request
 import database.db_connector as db
 
-db_connection = db.connect_to_database()
 
 def create_therapists(newTherapist):
     try:
@@ -13,6 +12,7 @@ def create_therapists(newTherapist):
             INSERT INTO Therapists (firstName, lastName, licenseNum)
             VALUES ('{firstName}', '{lastName}', '{licenseNum}')
         """
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
@@ -22,12 +22,15 @@ def create_therapists(newTherapist):
         print("Error creating therapist:", str(e))
         return jsonify(error="Error creating therapist"), 500
 
+
 def read_therapists():
     query = "SELECT * FROM Therapists;"
+    db_connection = db.connect_to_database()
     cursor = db.execute_query(db_connection=db_connection, query=query)
     results = cursor.fetchall()
 
     return jsonify(results)
+
 
 def update_therapists(id, newTherapist):
     firstName = newTherapist['firstName']
@@ -40,6 +43,7 @@ def update_therapists(id, newTherapist):
         SET firstName = '{firstName}', lastName = '{lastName}', licenseNum = '{licenseNum}'
         WHERE therapistID = {id};
         """
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
@@ -49,9 +53,11 @@ def update_therapists(id, newTherapist):
         print("Error updating therapist:", str(e))
         return jsonify(error="Error updating therapist"), 500
 
+
 def delete_therapists(id):
     try:
         query = f"DELETE FROM Therapists WHERE therapistID = {id};"
+        db_connection = db.connect_to_database()
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
