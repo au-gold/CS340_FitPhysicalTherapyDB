@@ -58,6 +58,7 @@ function CreateAppointment() {
       const URL = import.meta.env.VITE_API_URL + "appointments";
       const response = await axios.post(URL, newAppointment);
       if (response.status === 201) {
+        alert(response.data.message);
         navigate("/appointments");
       } else {
         alert("Error creating appointment");
@@ -98,6 +99,7 @@ function CreateAppointment() {
             name="patientID"
             value={formData.patientID}
             onChange={handleInputChange}
+            required
           >
             <option value="default" selected>Select a patient</option>
             {patients.map((patient) => (
@@ -113,6 +115,7 @@ function CreateAppointment() {
             name="therapistID"
             value={formData.therapistID}
             onChange={handleInputChange}
+            required
           >
             <option value="default" selected>Select a therapist</option>
             {therapists.map((therapist) => (
@@ -129,6 +132,7 @@ function CreateAppointment() {
             name="treatmentPlanID"
             value={formData.treatmentPlanID}
             onChange={handleInputChange}
+            required
           >
             <option value="default" selected>Select a treatment plan</option>
             {treatmentPlans.map((treatmentPlan) => (

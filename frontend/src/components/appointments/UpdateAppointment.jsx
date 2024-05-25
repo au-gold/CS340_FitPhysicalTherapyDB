@@ -1,7 +1,7 @@
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -12,17 +12,20 @@ const UpdateAppointment = () => {
   const location = useLocation();
   const prevAppointment = location.state.appointment;
 
+  // To set the previous date and time to the form with correct format.
+  const prevTime = new Date('1/1/1980 ' + prevAppointment.appointmentTime).toString().substring(16,21);
+  const prevDate = new Date(prevAppointment.appointmentDate).toISOString().substring(0,10);
+
+
   const [formData, setFormData] = useState({
     patientID: prevAppointment.patientID || '',
-    patientFirstName: prevAppointment.patientFirstName || '',
-    patientLastName: prevAppointment.patientLastName || '',
     therapistID: prevAppointment.therapistID || '',
-    therapistFirstName: prevAppointment.therapistFirstName || '',
-    therapistLastName: prevAppointment.therapistLastName || '',
     treatmentPlanID: prevAppointment.treatmentPlanID || '',
-    appointmentDate: prevAppointment.appointmentDate || '',
-    appointmentTime: prevAppointment.appointmentTime || '',
+    appointmentDate: prevDate || '',
+    appointmentTime: prevTime || '',
   });
+  
+  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -32,15 +35,12 @@ const UpdateAppointment = () => {
     }));
   };
 
+
   function isUpdate() {
     // Check if formData is equal to prevAppointment
     if (JSON.stringify(formData) === JSON.stringify({
       patientID: prevAppointment.patientID || '',
-      patientFirstName: prevAppointment.patientFirstName || '',
-      patientLastName: prevAppointment.patientLastName || '',
       therapistID: prevAppointment.therapistID || '',
-      therapistFirstName: prevAppointment.therapistFirstName || '',
-      therapistLastName: prevAppointment.therapistLastName || '',
       treatmentPlanID: prevAppointment.treatmentPlanID || '',
       appointmentDate: prevAppointment.appointmentDate || '',
       appointmentTime: prevAppointment.appointmentTime || '',
@@ -51,6 +51,30 @@ const UpdateAppointment = () => {
     return true;
   }
 
+  // Getting the list of patients, therapists and treatmentPlans to show in dropdown list.
+  const [patients, setPatients] = useState([]);
+  const [therapists, setTherapists] = useState([]);
+  const [treatmentPlans, setTreatmentPlans] = useState([]);
+
+  // Store the data into variables to later populate the dropdown
+  useEffect(() => {
+    // Fetch patients
+    axios.get(import.meta.env.VITE_API_URL + "patients")
+      .then(response => setPatients(response.data))
+      .catch(error => console.error("Error fetching patients:", error));
+
+    // Fetch therapists
+    axios.get(import.meta.env.VITE_API_URL + "therapists")
+      .then(response => setTherapists(response.data))
+      .catch(error => console.error("Error fetching therapists:", error));
+
+    // Fetch treatment plans
+    axios.get(import.meta.env.VITE_API_URL + "treatmentPlans")
+      .then(response => setTreatmentPlans(response.data))
+      .catch(error => console.error("Error fetching treatment plans:", error));
+  }, []);
+
+
   const handleSubmit = async (event) => {
     // Stop default form behavior which is to reload the page
     event.preventDefault();
@@ -58,7 +82,6 @@ const UpdateAppointment = () => {
     if (isUpdate()) {
       try {
         const URL = import.meta.env.VITE_API_URL + "appointments/" + id;
-        // const URL = "http://127.0.0.1:9112/api/appointments";
         const response = await axios.put(URL, formData);
         if (response.status !== 200) {
           alert("Error updating appointment");
@@ -78,74 +101,54 @@ const UpdateAppointment = () => {
       <h2>Update Appointment</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Patient ID:</label>
-          <input
-            type="text"
+          <label>Patient:</label>
+          <select
             name="patientID"
+            value={formData.patientID}
             onChange={handleInputChange}
             required
             defaultValue={prevAppointment.patientID}
-          />
+          >
+            {/* <option value="default" selected>Select a patient</option> */}
+            {patients.map((patient) => (
+              <option key={patient.patientID} value={patient.patientID}>
+                {patient.firstName} {patient.lastName} (ID: {patient.patientID})
+              </option>
+            ))}
+          </select>
         </div>
+       
         <div className="form-group">
-          <label>Patient's First Name:</label>
-          <input
-            type="text"
-            name="patientFirstName"
-            onChange={handleInputChange}
-            required
-            defaultValue={prevAppointment.patientFirstName}
-          />
-        </div>
-        <div className="form-group">
-          <label>Patient's Last Name:</label>
-          <input
-            type="text"
-            name="patientLastName"
-            onChange={handleInputChange}
-            required
-            defaultValue={prevAppointment.patientLastName}
-          />
-        </div>
-        <div className="form-group">
-          <label>Therapist ID:</label>
-          <input
-            type="text"
+          <label>Therapist:</label>
+          <select
             name="therapistID"
+            value={formData.therapistID}
             onChange={handleInputChange}
             required
             defaultValue={prevAppointment.therapistID}
-          />
+          >
+            {therapists.map((therapist) => (
+              <option key={therapist.therapistID} value={therapist.therapistID}>
+                {therapist.firstName} {therapist.lastName} (ID: {therapist.therapistID})
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group">
-          <label>Therapist's First Name:</label>
-          <input
-            type="text"
-            name="therapistFirstName"
-            onChange={handleInputChange}
-            required
-            defaultValue={prevAppointment.therapistFirstName}
-          />
-        </div>
-        <div className="form-group">
-          <label>Therapist's Last Name:</label>
-          <input
-            type="text"
-            name="therapistLastName"
-            onChange={handleInputChange}
-            required
-            defaultValue={prevAppointment.therapistLastName}
-          />
-        </div>
-        <div className="form-group">
-          <label>Treatment Plan ID:</label>
-          <input
-            type="text"
+          <label>Treatment Plan:</label>
+          <select
             name="treatmentPlanID"
+            value={formData.treatmentPlanID}
             onChange={handleInputChange}
             required
             defaultValue={prevAppointment.treatmentPlanID}
-          />
+          >
+            {treatmentPlans.map((treatmentPlan) => (
+              <option key={treatmentPlan.treatmentPlanID} value={treatmentPlan.treatmentPlanID}>
+                {treatmentPlan.treatmentPlanID} (Goal: {treatmentPlan.treatmentGoalDesc})
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group">
           <label>Appointment Date:</label>
@@ -154,7 +157,7 @@ const UpdateAppointment = () => {
             name="appointmentDate"
             onChange={handleInputChange}
             required
-            defaultValue={prevAppointment.appointmentDate}
+            defaultValue={prevDate}
           />
         </div>
         <div className="form-group">
@@ -164,7 +167,7 @@ const UpdateAppointment = () => {
             name="appointmentTime"
             onChange={handleInputChange}
             required
-            defaultValue={prevAppointment.appointmentTime}
+            defaultValue={prevTime}
           />
         </div>
         
