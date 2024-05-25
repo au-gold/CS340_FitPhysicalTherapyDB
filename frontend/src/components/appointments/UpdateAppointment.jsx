@@ -167,10 +167,11 @@ const UpdateAppointment = () => {
             defaultValue={prevAppointment.appointmentTime}
           />
         </div>
+        
+        <button type="submit">Update</button>
         <button type="button" onClick={() => navigate("/appointments")}>
           Cancel
         </button>
-        <button type="submit">Update</button>
       </form>
     </div>
   );
