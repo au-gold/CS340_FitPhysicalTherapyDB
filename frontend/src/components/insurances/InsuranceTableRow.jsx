@@ -17,6 +17,11 @@ const TableRow = ({ insurance, fetchInsurances }) => {
   };
 
   const deleteRow = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this patient?");
+    if (!confirmed) {
+      return; // Exit the function if the user cancels the action
+    }
+    
     try {
       const URL = import.meta.env.VITE_API_URL + "insurances/" + insurance.insuranceID;
       // const URL = "http://127.0.0.1:9112/api/insurances";

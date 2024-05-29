@@ -4,6 +4,7 @@ import database.db_connector as db
 from route_handlers.insurance_routes import create_insurances, read_insurances, update_insurances, delete_insurances
 from route_handlers.appointment_routes import create_appointments, read_appointments, update_appointments, delete_appointments
 from route_handlers.therapist_routes import create_therapists, read_therapists, update_therapists, delete_therapists
+from route_handlers.patient_routes import create_patients, read_patients, update_patients, delete_patients
 from time import sleep
 import logging
 from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
@@ -21,29 +22,22 @@ if __name__ != '__main__':
 
 
 @app.route("/api/patients", methods=['POST', 'GET'])
-def patients():
+def patients_post_get():
     if request.method == 'GET':
-        query = """
-            SELECT
-                p.patientID,
-                p.firstName,
-                p.lastName,
-                p.dateOfBirth,
-                p.address,
-                p.phoneNumber,
-                IFNULL(i.insCardNum, 'NULL') AS insCardNum
-            FROM
-                Patients AS p
-            LEFT JOIN
-                Insurances as i ON p.insuranceID = i.insuranceID;
-            """
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-
-        # Sends the results back to the web browser.
-        return jsonify_with_encoder(results)
-
+        return read_patients()
+    
+    if request.method == 'POST':
+        newPatient = request.json
+        return create_patients(newPatient)
+    
+@app.route("/api/patients/<int:id>", methods = ['DELETE', 'PUT'])
+def patients_del_put(id):
+    if request.method == 'DELETE':
+        return delete_patients(id)
+    
+    if request.method == 'PUT':
+        newPatient = request.json
+        return update_patients(id, newPatient)
 
 @app.route("/api/insurances", methods=['POST', 'GET'])
 def insurances_post_get():
@@ -53,7 +47,6 @@ def insurances_post_get():
     if request.method == 'POST':
         newInsurance = request.json
         return create_insurances(newInsurance)
-
 
 @app.route("/api/insurances/<int:id>", methods=['DELETE', 'PUT'])
 def insurances_del_put(id):

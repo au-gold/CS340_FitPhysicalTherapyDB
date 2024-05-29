@@ -14,6 +14,10 @@ const TableRow = ({ appointment, fetchAppointments }) => {
   };
 
   const deleteRow = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this patient?");
+    if (!confirmed) {
+      return; // Exit the function if the user cancels the action
+    }
     try {
       const URL = import.meta.env.VITE_API_URL + "appointments/" + appointment.appointmentID;
       const response = await axios.delete(URL);
