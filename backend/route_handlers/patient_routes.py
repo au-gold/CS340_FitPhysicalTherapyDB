@@ -100,9 +100,9 @@ def update_patients(id, newPatient):
 def delete_patients(id):
     db_connection = db.connect_to_database()
     try:
-        query = f"DELETE FROM Patients WHERE patientID = {id};"
+        query = "DELETE FROM Patients WHERE patientID = %s;"
 
-        db.execute_query(db_connection=db_connection, query=query)
+        db.execute_query(db_connection, query, tuple([id]))
         db_connection.commit()
 
         return jsonify(message="Patient deleted successfully"), 204

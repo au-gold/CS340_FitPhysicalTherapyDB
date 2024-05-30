@@ -24,7 +24,6 @@ const TableRow = ({ patient, fetchPatients }) => {
 
     try {
       const URL = import.meta.env.VITE_API_URL + "patients/" + patient.patientID;
-      // const URL = "http://127.0.0.1:9112/api/patients";
       const response = await axios.delete(URL);
       // Ensure that the patient was deleted successfully
       if (response.status === 204) {

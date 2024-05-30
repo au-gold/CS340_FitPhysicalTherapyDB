@@ -1,0 +1,124 @@
+from flask import jsonify
+import database.db_connector as db
+from time import sleep
+
+
+def create_treatment(newTreatmentPlan):
+    db_connection = db.connect_to_database()
+
+    try:
+        duration = newTreatmentPlan['duration']
+        frequency = newTreatmentPlan['frequency']
+        treatmentGoalDesc = newTreatmentPlan['treatmentGoalDesc']
+
+        query_treat = """
+            INSERT INTO TreatmentPlans (duration, frequency, treatmentGoalDesc)
+            VALUES (%s, %s, %s)
+        """
+        q_params = (duration, frequency, treatmentGoalDesc)
+        db.execute_query(db_connection, query_treat, q_params)
+        db_connection.commit()
+
+        return jsonify(message="TreatmentPlan created successfully"), 201
+
+    except Exception as e:
+        print("Error creating TreatmentPlan:", str(e))
+        return jsonify(error="Error creating TreatmentPlan"), 500
+
+    finally:
+        db_connection.close()
+
+
+def read_treatment():
+    db_connection = db.connect_to_database()
+
+    try:
+        query = "SELECT * FROM TreatmentPlans"
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        results = cursor.fetchall()
+
+        return jsonify(results)
+
+    except Exception as e:
+        print("Error reading treatment plans:", str(e))
+        return jsonify(error="Error reading treatmentPlanExercises"), 500
+    finally:
+        db_connection.close()
+
+
+def read_treatmentPE():
+    sleep(0.1)
+    db_connection = db.connect_to_database()
+
+    try:
+        query = """
+            SELECT
+                treatmentExerciseID, treatmentPlanID,
+                TreatmentExercises.exerciseID,
+                Exercises.exerciseName, sets, reps
+            FROM TreatmentExercises
+            INNER JOIN
+                Exercises ON Exercises.exerciseID =
+                                TreatmentExercises.exerciseID;
+        """
+
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        results = cursor.fetchall()
+
+        return jsonify(results)
+    except Exception as e:
+        print("Error reading treatmentPlanExercises:", str(e))
+        return jsonify(error="Error reading treatmentPlanExercises"), 500
+    finally:
+        db_connection.close()
+
+
+def update_patients(id, newPatient):
+    db_connection = db.connect_to_database()
+
+    try:
+        firstName = newPatient['firstName']
+        lastName = newPatient['lastName']
+        dateOfBirth = newPatient['dateOfBirth']
+        address = newPatient['address']
+        phoneNumber = newPatient['phoneNumber']
+        insuranceID = newPatient['insuranceID']
+
+        if insuranceID in ("", "None"):
+            insuranceID = None
+
+        query_patient = """
+        UPDATE Patients
+        SET firstName = %s, lastName = %s,
+        dateOfBirth = %s, address = %s,
+        phoneNumber = %s, insuranceID = %s
+        WHERE patientID = %s
+        """
+        q_params = (firstName, lastName, dateOfBirth, address, phoneNumber,
+                    insuranceID, id)
+        db.execute_query(db_connection, query_patient, q_params)
+        db_connection.commit()
+
+        return jsonify(message="Patient updated successfully."), 200
+
+    except Exception as e:
+        print("Error updating patient:", str(e))
+        return jsonify(error="Error updating patient"), 500
+    finally:
+        db_connection.close()
+
+
+def delete_treatmentPlan(id):
+    db_connection = db.connect_to_database()
+    try:
+        query = "DELETE FROM TreatmentPlans WHERE treatmentPlanID = %s;"
+
+        db.execute_query(db_connection, query, tuple([id]))
+        db_connection.commit()
+
+        return jsonify(message="TreatmentPlan deleted successfully"), 204
+    except Exception as e:
+        print("Error deleting TreatmentPlan:", str(e))
+        return jsonify(error="Error deleting TreatmentPlan"), 500
+    finally:
+        db_connection.close()

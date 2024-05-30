@@ -5,6 +5,7 @@ from route_handlers.insurance_routes import create_insurances, read_insurances, 
 from route_handlers.appointment_routes import create_appointments, read_appointments, update_appointments, delete_appointments
 from route_handlers.therapist_routes import create_therapists, read_therapists, update_therapists, delete_therapists
 from route_handlers.patient_routes import create_patients, read_patients, update_patients, delete_patients
+from route_handlers.treatment_routes import create_treatment, read_treatment, read_treatmentPE, update_patients, delete_treatmentPlan
 from time import sleep
 import logging
 from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
@@ -73,34 +74,30 @@ def exercises_post_get():
 @app.route("/api/treatmentPlans", methods=['POST', 'GET'])
 def treatmentPlans_post_get():
     if request.method == 'GET':
-        query = "SELECT * FROM TreatmentPlans"
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
+        return read_treatment()
 
-        # Sends the results back to the web browser.
-        return jsonify_with_encoder(results)
+    if request.method == 'POST':
+        newTreatmentPlan = request.json
+        return create_treatment(newTreatmentPlan)
+
+
+@app.route("/api/treatmentPlans/<int:id>", methods=['DELETE', 'PUT'])
+def treatmentPlan_del_put(id):
+    if request.method == 'DELETE':
+        return delete_treatmentPlan(id)
+
+    if request.method == "PUT":
+        newInsurance = request.json
+        return update_insurances(id, newInsurance)
 
 
 @app.route("/api/treatmentPlansExercises", methods=['POST', 'GET'])
 def treatmentPlansExercises_post_get():
-    sleep(0.2)
     if request.method == 'GET':
-        query = """
-            SELECT
-                treatmentExerciseID, treatmentPlanID,
-                TreatmentExercises.exerciseID,
-                Exercises.exerciseName, sets, reps
-            FROM TreatmentExercises
-            INNER JOIN
-                Exercises ON Exercises.exerciseID = TreatmentExercises.exerciseID;
-        """
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
+        return read_treatmentPE()
 
-        # Sends the results back to the web browser.
-        return jsonify_with_encoder(results)
+    if request.method == 'POST':
+        return
 
 
 @app.route("/api/therapists", methods=['POST', 'GET'])
@@ -118,7 +115,7 @@ def therapists_del_put(id):
     if request.method == 'PUT':
         newTherapist = request.json
         return update_therapists(id, newTherapist)
-    
+
 
 @app.route("/api/appointments", methods=['POST', 'GET'])
 def appointments_post_get():

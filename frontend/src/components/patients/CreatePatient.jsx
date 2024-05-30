@@ -148,6 +148,9 @@ function CreatePatient() {
           </select>
         </div>
         <button type="submit">Create a Patient</button>
+        <button type="button" onClick={() => navigate("/patients")}>
+          Cancel
+        </button>
       </form>
     </>
   );

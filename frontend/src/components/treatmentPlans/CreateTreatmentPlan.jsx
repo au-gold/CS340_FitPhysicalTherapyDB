@@ -10,7 +10,6 @@ function CreateTreatmentPlan() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    treatmentPlanID: "",
     duration: "",
     frequency: "",
     treatmentGoalDesc: "",
@@ -21,7 +20,6 @@ function CreateTreatmentPlan() {
     e.preventDefault();
     // Create a new exercise object from the formData
     const newTreatmentPlan = {
-      treatmentPlanID: formData.treatmentPlanID,
       duration: formData.duration,
       frequency: formData.frequency,
       treatmentGoalDesc: formData.treatmentGoalDesc,
@@ -29,7 +27,6 @@ function CreateTreatmentPlan() {
 
     try {
       const URL = import.meta.env.VITE_API_URL + "treatmentPlans";
-      // const URL = "http://127.0.0.1:9112/api/treatmentPlans";
       const response = await axios.post(URL, newTreatmentPlan);
       if (response.status === 201) {
         alert("TreatmentPlan created successfully");
@@ -47,7 +44,6 @@ function CreateTreatmentPlan() {
 
   const resetFormFields = () => {
     setFormData({
-      treatmentPlanID: "",
       duration: "",
       frequency: "",
       treatmentGoalDesc: "",
@@ -66,15 +62,6 @@ function CreateTreatmentPlan() {
     <>
       <h2>Create a TreatmentPlan</h2>
         <form onSubmit={handleSubmit} >
-          <div className="form-group">
-            <label htmlFor="treatmentPlanID">Treatment Plan ID </label>
-            <input
-              type="text"
-              name="treatmentPlanID"
-              defaultValue={formData.treatmentPlanID}
-              onChange={handleInputChange}
-            />
-          </div>
           <div className="form-group">
             <label htmlFor="duration">Duration in Weeks </label>
             <input
@@ -102,6 +89,9 @@ function CreateTreatmentPlan() {
             />
           </div>
           <button type="submit">Create a TreatmentPlan</button>
+          <button type="button" onClick={() => navigate("/treatmentPlans")}>
+          Cancel
+        </button>
         </form>
     </>
   );
