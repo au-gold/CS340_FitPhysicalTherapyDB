@@ -13,7 +13,7 @@ def create_patients(newPatient):
         phoneNumber = newPatient['phoneNumber']
         insuranceID = newPatient['insuranceID']
 
-        if insuranceID == "":
+        if insuranceID in ("", "None"):
             insuranceID = None
 
         print(f"insurance id is {insuranceID}")
@@ -39,7 +39,8 @@ def create_patients(newPatient):
 
 
 def read_patients():
-    db_connection = None
+    db_connection = db.connect_to_database()
+
     try:
         query = """
             SELECT Patients.patientID, Patients.firstName, Patients.lastName,
@@ -49,7 +50,7 @@ def read_patients():
             LEFT JOIN 
                 Insurances ON Patients.insuranceID = Insurances.insuranceID
         """
-        db_connection = db.connect_to_database()
+
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
         print(results)
@@ -58,37 +59,33 @@ def read_patients():
         print("Error reading patients:", str(e))
         return jsonify(error="Error reading patients"), 500
     finally:
-        if db_connection:
-            db_connection.close()
+        db_connection.close()
 
 
 def update_patients(id, newPatient):
-    db_connection = None
+    db_connection = db.connect_to_database()
+
     try:
         firstName = newPatient['firstName']
         lastName = newPatient['lastName']
         dateOfBirth = newPatient['dateOfBirth']
         address = newPatient['address']
         phoneNumber = newPatient['phoneNumber']
-        insCardNum = newPatient['insCardNum']
+        insuranceID = newPatient['insuranceID']
 
-        query_insurance = f"""
-            SELECT insuranceID FROM Insurances WHERE insCardNum = '{insCardNum}'
-        """
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query_insurance)
-        insurance_record = cursor.fetchone()
-        
-        insuranceID = insurance_record['insuranceID'] if insurance_record else None
+        if insuranceID in ("", "None"):
+            insuranceID = None
 
-        query_patient = f"""
+        query_patient = """
         UPDATE Patients
-        SET firstName = '{firstName}', lastName = '{lastName}', 
-        dateOfBirth = '{dateOfBirth}', address = '{address}', 
-        phoneNumber = '{phoneNumber}', insuranceID = '{insuranceID}'
-        WHERE patientID = {id}
+        SET firstName = %s, lastName = %s,
+        dateOfBirth = %s, address = %s,
+        phoneNumber = %s, insuranceID = %s
+        WHERE patientID = %s
         """
-        db.execute_query(db_connection=db_connection, query=query_patient)
+        q_params = (firstName, lastName, dateOfBirth, address, phoneNumber,
+                    insuranceID, id)
+        db.execute_query(db_connection, query_patient, q_params)
         db_connection.commit()
 
         return jsonify(message="Patient updated successfully."), 200
@@ -97,14 +94,14 @@ def update_patients(id, newPatient):
         print("Error updating patient:", str(e))
         return jsonify(error="Error updating patient"), 500
     finally:
-        if db_connection:
-            db_connection.close()
+        db_connection.close()
+
 
 def delete_patients(id):
-    db_connection = None
+    db_connection = db.connect_to_database()
     try:
         query = f"DELETE FROM Patients WHERE patientID = {id};"
-        db_connection = db.connect_to_database()
+
         db.execute_query(db_connection=db_connection, query=query)
         db_connection.commit()
 
@@ -113,5 +110,4 @@ def delete_patients(id):
         print("Error deleting patient:", str(e))
         return jsonify(error="Error deleting patient"), 500
     finally:
-        if db_connection:
-            db_connection.close()
+        db_connection.close()

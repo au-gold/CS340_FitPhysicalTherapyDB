@@ -139,7 +139,7 @@ function CreatePatient() {
             onChange={handleInputChange}
           >
             <option value="">Select an Insurance</option>
-            <option value="">No Insurance</option>
+            <option value="None">No Insurance</option>
             {insurances.map((insurance) => (
               <option key={insurance.insuranceID} value={insurance.insuranceID}>
                 {insurance.insCardNum} - {insurance.subscriberName}  {/* Display both insCardNum and subscriberName */}

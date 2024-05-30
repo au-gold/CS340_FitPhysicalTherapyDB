@@ -19,7 +19,7 @@ const UpdatePatient = () => {
     dateOfBirth: prevPatient.dateOfBirth || '',
     address: prevPatient.address || '',
     phoneNumber: prevPatient.phoneNumber || '',
-    insCardNum: prevPatient.insCardNum || '',  // Changed from insuranceID to insuranceCardNum
+    insuranceID: prevPatient.insuranceID || '',  // Changed from insuranceID to insuranceCardNum
   });
 
   const [insurances, setInsurances] = useState([]);
@@ -55,7 +55,7 @@ const UpdatePatient = () => {
       dateOfBirth: prevPatient.dateOfBirth || '',
       address: prevPatient.address || '',
       phoneNumber: prevPatient.phoneNumber || '',
-      insCardNum: prevPatient.insCardNum || '',  
+      insuranceID: prevPatient.insuranceID || '',  
     })) {
       alert("No changes made.");
       return false;
@@ -140,14 +140,15 @@ const UpdatePatient = () => {
         <div className="form-group">
           <label>Insurance Card Number:</label>  
           <select 
-            name="insCardNum"
-            value={formData.insCardNum}
+            name="insuranceID"
+            value={formData.insuranceID}
             onChange={handleInputChange}
           >
             <option value="">Select Insurance</option>
+            <option value="None">No Insurance</option>
             {insurances.map((insurance) => (
-              <option key={insurance.insuranceID} value={insurance.insCardNum}>
-                {insurance.insCardNum}   {/* Display both insCardNum and subscriberName */}
+              <option key={insurance.insuranceID} value={insurance.insuranceID}>
+                {insurance.insCardNum} - {insurance.subscriberName}
               </option>
             ))}
           </select>

@@ -28,7 +28,7 @@ const TableRow = ({ patient, fetchPatients }) => {
       const response = await axios.delete(URL);
       // Ensure that the patient was deleted successfully
       if (response.status === 204) {
-        alert("Person deleted successfully");
+        alert("Patient deleted successfully");
       }
     } catch (err) {
       alert(err.response.data.error || "Error deleting patient");
