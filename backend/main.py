@@ -5,7 +5,7 @@ from route_handlers.insurance_routes import create_insurances, read_insurances, 
 from route_handlers.appointment_routes import create_appointments, read_appointments, update_appointments, delete_appointments
 from route_handlers.therapist_routes import create_therapists, read_therapists, update_therapists, delete_therapists
 from route_handlers.patient_routes import create_patients, read_patients, update_patients, delete_patients
-from route_handlers.treatment_routes import create_treatment, read_treatment, read_treatmentPE, update_patients, delete_treatmentPlan
+from route_handlers.treatment_routes import create_treatment, read_treatment, read_treatmentPE, update_treatmentPlan, delete_treatmentPlan
 from time import sleep
 import logging
 from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
@@ -87,8 +87,8 @@ def treatmentPlan_del_put(id):
         return delete_treatmentPlan(id)
 
     if request.method == "PUT":
-        newInsurance = request.json
-        return update_insurances(id, newInsurance)
+        newTreatmentPlan = request.json
+        return update_treatmentPlan(id, newTreatmentPlan)
 
 
 @app.route("/api/treatmentPlansExercises", methods=['POST', 'GET'])

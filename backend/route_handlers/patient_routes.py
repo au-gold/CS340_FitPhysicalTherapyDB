@@ -81,7 +81,7 @@ def update_patients(id, newPatient):
         SET firstName = %s, lastName = %s,
         dateOfBirth = %s, address = %s,
         phoneNumber = %s, insuranceID = %s
-        WHERE patientID = %s
+        WHERE patientID = %s;
         """
         q_params = (firstName, lastName, dateOfBirth, address, phoneNumber,
                     insuranceID, id)

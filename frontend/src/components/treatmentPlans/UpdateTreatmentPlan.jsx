@@ -13,7 +13,6 @@ const UpdateTreatmentPlan = () => {
   const prevTreatmentPlan = location.state.treatmentPlan;
 
   const [formData, setFormData] = useState({
-    treatmentPlanID: prevTreatmentPlan.treatmentPlanID || '',
     duration: prevTreatmentPlan.duration || '',
     frequency: prevTreatmentPlan.frequency || '',
     treatmentGoalDesc: prevTreatmentPlan.treatmentGoalDesc || '',
@@ -30,8 +29,8 @@ const UpdateTreatmentPlan = () => {
   function isUpdate(){
     // Check if formData is equal to prevTreatmentPlan
     if (JSON.stringify(formData) === JSON.stringify({
-      treatmentPlanID: prevTreatmentPlan.treatmentPlanID || '',
       duration: prevTreatmentPlan.duration || '',
+      frequency: prevTreatmentPlan.frequency || '',
       treatmentGoalDesc: prevTreatmentPlan.treatmentGoalDesc || '',
     })) {
       alert("No changes made.");
@@ -47,7 +46,6 @@ const UpdateTreatmentPlan = () => {
     if (isUpdate()){
       try {
         const URL = import.meta.env.VITE_API_URL + "treatmentPlans/" + id;
-        // const URL = "http://127.0.0.1:9112/api/treatmentPlans";
         const response = await axios.put(URL, formData);
         if (response.status !== 200) {
           alert("Error updating treatmentPlan");
@@ -66,16 +64,6 @@ const UpdateTreatmentPlan = () => {
     <div>
       <h2>Update Treatment Plan</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Treatment Plan ID:</label>
-          <input
-            type="text"
-            name="treatmentPlanID"
-            onChange={handleInputChange}
-            required
-            defaultValue={prevTreatmentPlan.treatmentPlanID}
-          />
-        </div>
         <div className="form-group">
           <label>Duration in Weeks:</label>
           <input
@@ -106,10 +94,10 @@ const UpdateTreatmentPlan = () => {
           />
         </div>
 
+        <button type="submit">Update</button>
         <button type="button" onClick={() => navigate("/treatmentPlans")}>
           Cancel
         </button>
-        <button type="submit">Update</button>
       </form>
     </div>
   );

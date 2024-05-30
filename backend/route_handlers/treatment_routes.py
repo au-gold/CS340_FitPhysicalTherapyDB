@@ -73,37 +73,29 @@ def read_treatmentPE():
         db_connection.close()
 
 
-def update_patients(id, newPatient):
+def update_treatmentPlan(id, newTreatmentPlan):
     db_connection = db.connect_to_database()
 
     try:
-        firstName = newPatient['firstName']
-        lastName = newPatient['lastName']
-        dateOfBirth = newPatient['dateOfBirth']
-        address = newPatient['address']
-        phoneNumber = newPatient['phoneNumber']
-        insuranceID = newPatient['insuranceID']
+        duration = newTreatmentPlan['duration']
+        frequency = newTreatmentPlan['frequency']
+        treatmentGoalDesc = newTreatmentPlan['treatmentGoalDesc']
 
-        if insuranceID in ("", "None"):
-            insuranceID = None
-
-        query_patient = """
-        UPDATE Patients
-        SET firstName = %s, lastName = %s,
-        dateOfBirth = %s, address = %s,
-        phoneNumber = %s, insuranceID = %s
-        WHERE patientID = %s
+        query_treat = """
+            UPDATE TreatmentPlans
+                SET duration = %s, frequency = %s, treatmentGoalDesc = %s
+            WHERE treatmentPlanID = %s;
         """
-        q_params = (firstName, lastName, dateOfBirth, address, phoneNumber,
-                    insuranceID, id)
-        db.execute_query(db_connection, query_patient, q_params)
+        q_params = (duration, frequency, treatmentGoalDesc, id)
+        db.execute_query(db_connection, query_treat, q_params)
         db_connection.commit()
 
-        return jsonify(message="Patient updated successfully."), 200
+        return jsonify(message="Treatment Plan updated successfully."), 200
 
     except Exception as e:
-        print("Error updating patient:", str(e))
-        return jsonify(error="Error updating patient"), 500
+        print("Error updating Treatment Plan:", str(e))
+        return jsonify(error="Error updating Treatment Plan"), 500
+
     finally:
         db_connection.close()
 
