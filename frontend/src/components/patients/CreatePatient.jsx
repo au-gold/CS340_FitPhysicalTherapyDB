@@ -14,7 +14,7 @@ function CreatePatient() {
     dateOfBirth: "",
     address: "",
     phoneNumber: "",
-    insCardNum: "",  
+    insuranceID: "",  
   });
 
   const [insurances, setInsurances] = useState([]);
@@ -44,7 +44,7 @@ function CreatePatient() {
       dateOfBirth: formData.dateOfBirth,
       address: formData.address,
       phoneNumber: formData.phoneNumber,
-      insCardNum: formData.insCardNum, 
+      insuranceID: formData.insuranceID, 
     };
 
     try {
@@ -70,7 +70,7 @@ function CreatePatient() {
       dateOfBirth: "",
       address: "",
       phoneNumber: "",
-      insCardNum: "", 
+      insuranceID: "", 
     });
   };
 
@@ -132,15 +132,16 @@ function CreatePatient() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="insCardNum">Insurance Card Number</label>  
+          <label htmlFor="insuranceID">Insurance Card Number</label>  
           <select 
-            name="insCardNum"
-            value={formData.insCardNum}
+            name="insuranceID"
+            value={formData.insuranceID}
             onChange={handleInputChange}
           >
-            <option value="">Select Insurance</option>
+            <option value="">Select an Insurance</option>
+            <option value="">No Insurance</option>
             {insurances.map((insurance) => (
-              <option key={insurance.insuranceID} value={insurance.insCardNum}>
+              <option key={insurance.insuranceID} value={insurance.insuranceID}>
                 {insurance.insCardNum} - {insurance.subscriberName}  {/* Display both insCardNum and subscriberName */}
               </option>
             ))}

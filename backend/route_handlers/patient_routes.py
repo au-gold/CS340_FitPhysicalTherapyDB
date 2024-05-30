@@ -1,30 +1,31 @@
 from flask import jsonify
 import database.db_connector as db
 
+
 def create_patients(newPatient):
-    db_connection = None
+    db_connection = db.connect_to_database()
+
     try:
         firstName = newPatient['firstName']
         lastName = newPatient['lastName']
         dateOfBirth = newPatient['dateOfBirth']
         address = newPatient['address']
         phoneNumber = newPatient['phoneNumber']
-        insCardNum = newPatient['insCardNum']
+        insuranceID = newPatient['insuranceID']
 
-        query_insurance = f"""
-            SELECT insuranceID FROM Insurances WHERE insCardNum = '{insCardNum}'
-        """
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query_insurance)
-        insurance_record = cursor.fetchone()
-        
-        insuranceID = insurance_record['insuranceID'] if insurance_record else None
+        if insuranceID == "":
+            insuranceID = None
 
-        query_patient = f"""
-            INSERT INTO Patients (firstName, lastName, dateOfBirth, address, phoneNumber, insuranceID)
-            VALUES ('{firstName}', '{lastName}', '{dateOfBirth}', '{address}', '{phoneNumber}', '{insuranceID}')
+        print(f"insurance id is {insuranceID}")
+
+        query_patient = """
+            INSERT INTO Patients (firstName, lastName, dateOfBirth, address,
+            phoneNumber, insuranceID)
+            VALUES (%s, %s, %s, %s, %s, %s)
         """
-        db.execute_query(db_connection=db_connection, query=query_patient)
+        q_params = (firstName, lastName, dateOfBirth, address, phoneNumber,
+                    insuranceID)
+        db.execute_query(db_connection, query_patient, q_params)
         db_connection.commit()
 
         return jsonify(message="Patient created successfully"), 201
@@ -32,18 +33,21 @@ def create_patients(newPatient):
     except Exception as e:
         print("Error creating patient:", str(e))
         return jsonify(error="Error creating patient"), 500
+
     finally:
-        if db_connection:
-            db_connection.close()
+        db_connection.close()
+
 
 def read_patients():
     db_connection = None
     try:
         query = """
-            SELECT Patients.patientID, Patients.firstName, Patients.lastName, Patients.dateOfBirth,
-                   Patients.address, Patients.phoneNumber, Insurances.insCardNum
+            SELECT Patients.patientID, Patients.firstName, Patients.lastName,
+                Patients.dateOfBirth, Patients.address, Patients.phoneNumber,
+                Insurances.insCardNum
             FROM Patients
-            LEFT JOIN Insurances ON Patients.insuranceID = Insurances.insuranceID
+            LEFT JOIN 
+                Insurances ON Patients.insuranceID = Insurances.insuranceID
         """
         db_connection = db.connect_to_database()
         cursor = db.execute_query(db_connection=db_connection, query=query)
@@ -56,6 +60,7 @@ def read_patients():
     finally:
         if db_connection:
             db_connection.close()
+
 
 def update_patients(id, newPatient):
     db_connection = None
