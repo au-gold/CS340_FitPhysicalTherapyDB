@@ -46,33 +46,6 @@ def read_treatment():
         db_connection.close()
 
 
-def read_treatmentPE():
-    sleep(0.1)
-    db_connection = db.connect_to_database()
-
-    try:
-        query = """
-            SELECT
-                treatmentExerciseID, treatmentPlanID,
-                TreatmentExercises.exerciseID,
-                Exercises.exerciseName, sets, reps
-            FROM TreatmentExercises
-            INNER JOIN
-                Exercises ON Exercises.exerciseID =
-                                TreatmentExercises.exerciseID;
-        """
-
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-
-        return jsonify(results)
-    except Exception as e:
-        print("Error reading treatmentPlanExercises:", str(e))
-        return jsonify(error="Error reading treatmentPlanExercises"), 500
-    finally:
-        db_connection.close()
-
-
 def update_treatmentPlan(id, newTreatmentPlan):
     db_connection = db.connect_to_database()
 

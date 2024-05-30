@@ -58,24 +58,25 @@ def read_treatmentPE():
         db_connection.close()
 
 
-def update_treatmentPlan(id, newTreatmentPlan):
+def update_treatmentPE(id, newTreatmentPlan):
     db_connection = db.connect_to_database()
 
     try:
-        duration = newTreatmentPlan['duration']
-        frequency = newTreatmentPlan['frequency']
-        treatmentGoalDesc = newTreatmentPlan['treatmentGoalDesc']
+        treatmentPlanID = newTreatmentPlan['treatmentPlanID']
+        exerciseID = newTreatmentPlan['exerciseID']
+        sets = newTreatmentPlan['sets']
+        reps = newTreatmentPlan['reps']
 
         query_treat = """
-            UPDATE TreatmentPlans
-                SET duration = %s, frequency = %s, treatmentGoalDesc = %s
-            WHERE treatmentPlanID = %s;
+            UPDATE TreatmentExercises
+                SET treatmentPlanID = %s, exerciseID = %s, sets =%s, reps = %s
+            WHERE TreatmentExerciseID = %s;
         """
-        q_params = (duration, frequency, treatmentGoalDesc, id)
+        q_params = (treatmentPlanID, exerciseID, sets, reps, id)
         db.execute_query(db_connection, query_treat, q_params)
         db_connection.commit()
 
-        return jsonify(message="Treatment Plan updated successfully."), 200
+        return jsonify(message="Treatment Plan/Exercise updated."), 200
 
     except Exception as e:
         print("Error updating Treatment Plan:", str(e))
