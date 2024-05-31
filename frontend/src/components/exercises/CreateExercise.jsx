@@ -92,6 +92,9 @@ function CreateExercise() {
               onChange={handleInputChange} 
             />
           </div>
+          <button type="button" onClick={() => navigate("/exercises")}>
+          Cancel
+        </button>
           <button type="submit">Create an Exercise</button>
         </form>
     </>

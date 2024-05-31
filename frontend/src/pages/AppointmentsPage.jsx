@@ -1,23 +1,31 @@
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useLocation} from "react-router-dom";
 import CreateAppointment from "../components/appointments/CreateAppointment";
 import AppointmentTable from "../components/appointments/AppointmentTable";
 import UpdateAppointment from "../components/appointments/UpdateAppointment";
 
 function AppointmentsPage() {
+  const location = useLocation();
+
   return (
     <div>
       <h1>Appointments Page</h1>
       <nav>
         <ul>
-          <li>
-            <Link to="/appointments">Appointments Table</Link>
-          </li>
-          <li>
-            <Link to="/appointments/add">Add an Appointment</Link>
-          </li>
+          {/* Only renders appt table link  under add and edit page */}
+          {location.pathname === "/appointments/add" || location.pathname.startsWith("/appointments/edit") ? (
+            <>
+              <li>
+                <Link to="/appointments">Appointments Table</Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link to="/appointments/add">Add Appointment</Link>
+            </li>
+          )}
         </ul>
       </nav>
       <Routes>
