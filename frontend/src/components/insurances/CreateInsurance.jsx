@@ -90,6 +90,9 @@ function CreateInsurance() {
               onChange={handleInputChange} 
             />
           </div>
+          <button type="button" onClick={() => navigate("/insurances")}>
+          Cancel
+        </button>
           <button type="submit">Create an Insurance</button>
         </form>
     </>

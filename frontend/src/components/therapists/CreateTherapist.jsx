@@ -89,7 +89,9 @@ function CreateTherapist() {
           onChange={handleInputChange}
         />
         </div>
-        
+        <button type="button" onClick={() => navigate("/therapists")}>
+          Cancel
+        </button>
         <button type="submit">Create a Therapist</button>
       </form>
     </>
