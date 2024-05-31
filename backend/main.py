@@ -7,6 +7,7 @@ from route_handlers.therapist_routes import create_therapists, read_therapists, 
 from route_handlers.patient_routes import create_patients, read_patients, update_patients, delete_patients
 from route_handlers.treatment_routes import create_treatment, read_treatment, update_treatmentPlan, delete_treatmentPlan
 from route_handlers.treatmentPE_routes import create_treatmentPE, read_treatmentPE, update_treatmentPE, delete_treatmentPE
+from route_handlers.exercise_routes import *
 from time import sleep
 import logging
 from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
@@ -63,15 +64,21 @@ def insurances_del_put(id):
 @app.route("/api/exercises", methods=['POST', 'GET'])
 def exercises_post_get():
     if request.method == 'GET':
-        query = "SELECT * FROM Exercises"
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
+        return read_exercises()
 
-        # Sends the results back to the web browser.
-        return jsonify_with_encoder(results)
+    if request.method == 'POST':
+        newExercise = request.json
+        return create_exercises(newExercise)
 
-
+@app.route("/api/exercises/<int:id>", methods=['DELETE', 'PUT'])
+def exercises_del_put(id):
+    if request.method == 'DELETE':
+        return delete_exercises(id)  
+    
+    if request.method == 'PUT':
+        newExercise = request.json
+        return update_exercises(id, newExercise)
+    
 @app.route("/api/treatmentPlans", methods=['POST', 'GET'])
 def treatmentPlans_post_get():
     if request.method == 'GET':
@@ -110,10 +117,6 @@ def treatmentPlansExercises_del_put(id):
     if request.method == "PUT":
         newTreatmentPlan = request.json
         return update_treatmentPE(id, newTreatmentPlan)
-
-
-
-
 
 @app.route("/api/therapists", methods=['POST', 'GET'])
 def therapists_post_get():
