@@ -2,7 +2,7 @@
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -11,10 +11,28 @@ function CreateTreatmentPlanExercise() {
 
   const [formData, setFormData] = useState({
     treatmentPlanID: "",
-    exerciseName: "",
+    exerciseID: "",
     sets: "",
     reps: "",
   });
+  
+  // Getting the list of Exercises and treatmentPlans to show in dropdown list.
+  const [treatmentPlans, setTreatmentPlans] = useState([]);
+  const [exercises, setExercises] = useState([]);
+
+  // Store the data into variables to later populate the dropdown
+  useEffect(() => {
+    // Fetch treatment plans
+    axios.get(import.meta.env.VITE_API_URL + "treatmentPlans")
+      .then(response => setTreatmentPlans(response.data))
+      .catch(error => console.error("Error fetching treatment plans:", error));
+
+    // Fetch exercises
+    axios.get(import.meta.env.VITE_API_URL + "exercises")
+    .then(response => setExercises(response.data))
+    .catch(error => console.error("Error fetching exercises:", error));
+  }, []);
+
   
   const handleSubmit = async (e) => {
     // Prevent page reload
@@ -22,23 +40,23 @@ function CreateTreatmentPlanExercise() {
     // Create a new exercise object from the formData
     const newTreatmentPlan = {
       treatmentPlanID: formData.treatmentPlanID,
-      exerciseName: formData.exerciseName,
+      exerciseID: formData.exerciseID,
       sets: formData.sets,
       reps: formData.reps,
     };
 
     try {
-      const URL = import.meta.env.VITE_API_URL + "treatmentPlans/add_t_and_e";
+      const URL = import.meta.env.VITE_API_URL + "treatmentPlansExercises";
       const response = await axios.post(URL, newTreatmentPlan);
       if (response.status === 201) {
-        alert("TreatmentPlan created successfully");
+        alert("Assigned exercise to a treatmentPlan successfully");
         navigate("/treatmentPlans");
       } else {
-        alert("Error creating exercise");
+        alert("Error assigning exercise");
       }
     } catch (error) {
-      alert("Error creating exercise");
-      console.error("Error creating exercise:", error);
+      alert("Error assigning exercise");
+      console.error("Error assigning exercise:", error);
     }
     // Reset the form fields
     resetFormFields();
@@ -47,7 +65,7 @@ function CreateTreatmentPlanExercise() {
   const resetFormFields = () => {
     setFormData({
       treatmentPlanID: "",
-      exerciseName: "",
+      exerciseID: "",
       sets: "",
       reps: "",
     });
@@ -67,21 +85,37 @@ function CreateTreatmentPlanExercise() {
         <form onSubmit={handleSubmit} >
           <div className="form-group">
             <label htmlFor="treatmentPlanID">Treatment Plan ID </label>
-            <input
-              type="text"
-              name="treatmentPlanID"
-              defaultValue={formData.treatmentPlanID}
-              onChange={handleInputChange}
-            />
+            <select
+            name="treatmentPlanID"
+            value={formData.treatmentPlanID}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="" selected>Select a treatment plan</option>
+            {treatmentPlans.map((treatmentPlan) => (
+              <option key={treatmentPlan.treatmentPlanID} value={treatmentPlan.treatmentPlanID}>
+                {treatmentPlan.treatmentPlanID}: {treatmentPlan.treatmentGoalDesc}
+              </option>
+            ))}
+          </select>
+           
           </div>
           <div className="form-group">
-            <label htmlFor="exerciseName">Exercise Name </label>
-            <input
-              type="text"
-              name="exerciseName"
-              defaultValue={formData.exerciseName}
-              onChange={handleInputChange}
-            />
+            <label htmlFor="exerciseID">Exercise Name </label>
+            <select
+            name="exerciseID"
+            value={formData.exerciseID}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="" selected>Select an exercise</option>
+            {exercises.map((exercise) => (
+              <option key={exercise.exerciseID} value={exercise.exerciseID}>
+                {exercise.exerciseID}: {exercise.exerciseName}
+              </option>
+            ))}
+          </select>
+           
           </div>
           <div className="form-group">
             <label htmlFor="sets">Sets </label>
@@ -102,6 +136,9 @@ function CreateTreatmentPlanExercise() {
             />
           </div>
           <button type="submit">Assign an Exercise to a Treatment Plan</button>
+          <button type="button" onClick={() => navigate("/treatmentPlans")}>
+          Cancel
+        </button>
         </form>
     </>
   );

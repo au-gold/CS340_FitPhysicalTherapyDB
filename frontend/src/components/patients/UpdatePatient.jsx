@@ -1,13 +1,14 @@
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 const UpdatePatient = () => {
   const { id } = useParams();
+  console.log("Patient ID:", id);  // Debug log to check patient ID
   const navigate = useNavigate();
   const location = useLocation();
   const prevPatient = location.state.patient;
@@ -18,8 +19,25 @@ const UpdatePatient = () => {
     dateOfBirth: prevPatient.dateOfBirth || '',
     address: prevPatient.address || '',
     phoneNumber: prevPatient.phoneNumber || '',
-    insuranceID: prevPatient.insuranceID || '',
+    insuranceID: prevPatient.insuranceID || '',  // Changed from insuranceID to insuranceCardNum
   });
+
+  const [insurances, setInsurances] = useState([]);
+
+  // Fetch insurance records
+  useEffect(() => {
+    const fetchInsurances = async () => {
+      try {
+        const URL = import.meta.env.VITE_API_URL + "insurances";
+        const response = await axios.get(URL);
+        setInsurances(response.data);
+      } catch (error) {
+        alert("Error fetching insurances from the server.");
+        console.error("Error fetching insurances:", error);
+      }
+    };
+    fetchInsurances();
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -37,12 +55,12 @@ const UpdatePatient = () => {
       dateOfBirth: prevPatient.dateOfBirth || '',
       address: prevPatient.address || '',
       phoneNumber: prevPatient.phoneNumber || '',
-      insuranceID: prevPatient.insuranceID || '',
+      insuranceID: prevPatient.insuranceID || '',  
     })) {
       alert("No changes made.");
       return false;
     }
-    return true
+    return true;
   }
 
   const handleSubmit = async (event) => {
@@ -52,7 +70,6 @@ const UpdatePatient = () => {
     if (isUpdate()){
       try {
         const URL = import.meta.env.VITE_API_URL + "patients/" + id;
-        // const URL = "http://127.0.0.1:9112/api/patients";
         const response = await axios.put(URL, formData);
         if (response.status !== 200) {
           alert("Error updating patient");
@@ -121,14 +138,20 @@ const UpdatePatient = () => {
           />
         </div>
         <div className="form-group">
-          <label>Insurance ID:</label>
-          <input
-            type="text"
+          <label>Insurance Card Number:</label>  
+          <select 
             name="insuranceID"
+            value={formData.insuranceID}
             onChange={handleInputChange}
-            required
-            defaultValue={prevPatient.insuranceID}
-          />
+          >
+            <option value="">Select Insurance</option>
+            <option value="None">No Insurance</option>
+            {insurances.map((insurance) => (
+              <option key={insurance.insuranceID} value={insurance.insuranceID}>
+                {insurance.insCardNum} - {insurance.subscriberName}
+              </option>
+            ))}
+          </select>
         </div>
         <button type="button" onClick={() => navigate("/patients")}>
           Cancel

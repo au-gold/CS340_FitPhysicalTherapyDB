@@ -13,17 +13,21 @@ const TableRow = ({ patient, fetchPatients }) => {
   // Redirect to edit patient page
   const handleEdit = () => {
     // We can access the id (and query the patient) with useParams() in the UpdatePatient component
-    navigate("/patients/edit/" + patient.id, { state: { patient } });
+    navigate("/patients/edit/" + patient.patientID, { state: { patient } });
   };
 
   const deleteRow = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this patient?");
+    if (!confirmed) {
+      return; // Exit the function if the user cancels the action
+    }
+
     try {
-      const URL = import.meta.env.VITE_API_URL + "patients/" + patient.id;
-      // const URL = "http://127.0.0.1:9112/api/patients";
+      const URL = import.meta.env.VITE_API_URL + "patients/" + patient.patientID;
       const response = await axios.delete(URL);
       // Ensure that the patient was deleted successfully
       if (response.status === 204) {
-        alert("Person deleted successfully");
+        alert("Patient deleted successfully");
       }
     } catch (err) {
       alert(err.response.data.error || "Error deleting patient");
@@ -40,7 +44,7 @@ const TableRow = ({ patient, fetchPatients }) => {
       <td>{patient.dateOfBirth}</td>
       <td>{patient.address}</td>
       <td>{patient.phoneNumber}</td>
-      <td>{patient.insCardNum}</td>
+      <td>{patient.insCardNum || "Cash Pay"} </td> {/* Handle NULL values */}
       <td>
         <BiEditAlt onClick={handleEdit} size={25} style={{ cursor: "pointer" }} />
       </td>

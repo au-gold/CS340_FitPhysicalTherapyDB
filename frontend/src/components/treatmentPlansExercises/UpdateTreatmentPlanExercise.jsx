@@ -1,7 +1,7 @@
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -14,7 +14,7 @@ const UpdateTreatmentPlanExercise = () => {
 
   const [formData, setFormData] = useState({
     treatmentPlanID: prevTreatmentPlan.treatmentPlanID || '',
-    exerciseName: prevTreatmentPlan.exerciseName || '',
+    exerciseID: prevTreatmentPlan.exerciseID || '',
     sets: prevTreatmentPlan.sets || '',
     reps: prevTreatmentPlan.reps || '',
   });
@@ -31,7 +31,7 @@ const UpdateTreatmentPlanExercise = () => {
     // Check if formData is equal to prevTreatmentPlan
     if (JSON.stringify(formData) === JSON.stringify({
       treatmentPlanID: prevTreatmentPlan.treatmentPlanID || '',
-      exerciseName: prevTreatmentPlan.exerciseName || '',
+      exerciseID: prevTreatmentPlan.exerciseID || '',
       sets: prevTreatmentPlan.sets || '',
       reps: prevTreatmentPlan.reps || '',
     })) {
@@ -41,13 +41,32 @@ const UpdateTreatmentPlanExercise = () => {
     return true
   }
 
+
+  // Getting the list of Exercises and treatmentPlans to show in dropdown list.
+  const [treatmentPlans, setTreatmentPlans] = useState([]);
+  const [exercises, setExercises] = useState([]);
+
+  // Store the data into variables to later populate the dropdown
+  useEffect(() => {
+    // Fetch treatment plans
+    axios.get(import.meta.env.VITE_API_URL + "treatmentPlans")
+      .then(response => setTreatmentPlans(response.data))
+      .catch(error => console.error("Error fetching treatment plans:", error));
+
+    // Fetch exercises
+    axios.get(import.meta.env.VITE_API_URL + "exercises")
+    .then(response => setExercises(response.data))
+    .catch(error => console.error("Error fetching exercises:", error));
+  }, []);
+
+
   const handleSubmit = async (event) => {
     // Stop default form behavior which is to reload the page
     event.preventDefault();
     // Check if formData is equal to prevTreatmentPlan
     if (isUpdate()){
       try {
-        const URL = import.meta.env.VITE_API_URL + "edit_t_and_e/" + id;
+        const URL = import.meta.env.VITE_API_URL + "treatmentPlansExercises/" + id;
         const response = await axios.put(URL, formData);
         if (response.status !== 200) {
           alert("Error updating treatmentPlan");
@@ -68,23 +87,35 @@ const UpdateTreatmentPlanExercise = () => {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Treatment Plan ID:</label>
-          <input
-            type="text"
+          <select
             name="treatmentPlanID"
+            value={formData.treatmentPlanID}
             onChange={handleInputChange}
             required
-            defaultValue={prevTreatmentPlan.treatmentPlanID}
-          />
+          >
+            <option value="" selected>Select a treatment plan</option>
+            {treatmentPlans.map((treatmentPlan) => (
+              <option key={treatmentPlan.treatmentPlanID} value={treatmentPlan.treatmentPlanID}>
+                {treatmentPlan.treatmentPlanID}: {treatmentPlan.treatmentGoalDesc}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group">
           <label>Exercise Name:</label>
-          <input
-            type="text"
-            name="exerciseName"
+          <select
+            name="exerciseID"
+            value={formData.exerciseID}
             onChange={handleInputChange}
             required
-            defaultValue={prevTreatmentPlan.exerciseName}
-          />
+          >
+            <option value="" selected>Select an exercise</option>
+            {exercises.map((exercise) => (
+              <option key={exercise.exerciseID} value={exercise.exerciseID}>
+                {exercise.exerciseID}: {exercise.exerciseName}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group">
             <label>Sets:</label>
@@ -111,10 +142,11 @@ const UpdateTreatmentPlanExercise = () => {
           />
         </div>
 
+        
+        <button type="submit">Update</button>
         <button type="button" onClick={() => navigate("/treatmentPlans")}>
           Cancel
         </button>
-        <button type="submit">Update</button>
       </form>
     </div>
   );

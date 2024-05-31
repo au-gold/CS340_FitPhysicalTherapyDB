@@ -4,6 +4,9 @@ import database.db_connector as db
 from route_handlers.insurance_routes import create_insurances, read_insurances, update_insurances, delete_insurances
 from route_handlers.appointment_routes import create_appointments, read_appointments, update_appointments, delete_appointments
 from route_handlers.therapist_routes import create_therapists, read_therapists, update_therapists, delete_therapists
+from route_handlers.patient_routes import create_patients, read_patients, update_patients, delete_patients
+from route_handlers.treatment_routes import create_treatment, read_treatment, update_treatmentPlan, delete_treatmentPlan
+from route_handlers.treatmentPE_routes import create_treatmentPE, read_treatmentPE, update_treatmentPE, delete_treatmentPE
 from time import sleep
 import logging
 from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
@@ -21,29 +24,22 @@ if __name__ != '__main__':
 
 
 @app.route("/api/patients", methods=['POST', 'GET'])
-def patients():
+def patients_post_get():
     if request.method == 'GET':
-        query = """
-            SELECT
-                p.patientID,
-                p.firstName,
-                p.lastName,
-                p.dateOfBirth,
-                p.address,
-                p.phoneNumber,
-                IFNULL(i.insCardNum, 'NULL') AS insCardNum
-            FROM
-                Patients AS p
-            LEFT JOIN
-                Insurances as i ON p.insuranceID = i.insuranceID;
-            """
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-
-        # Sends the results back to the web browser.
-        return jsonify_with_encoder(results)
-
+        return read_patients()
+    
+    if request.method == 'POST':
+        newPatient = request.json
+        return create_patients(newPatient)
+    
+@app.route("/api/patients/<int:id>", methods = ['DELETE', 'PUT'])
+def patients_del_put(id):
+    if request.method == 'DELETE':
+        return delete_patients(id)
+    
+    if request.method == 'PUT':
+        newPatient = request.json
+        return update_patients(id, newPatient)
 
 @app.route("/api/insurances", methods=['POST', 'GET'])
 def insurances_post_get():
@@ -53,7 +49,6 @@ def insurances_post_get():
     if request.method == 'POST':
         newInsurance = request.json
         return create_insurances(newInsurance)
-
 
 @app.route("/api/insurances/<int:id>", methods=['DELETE', 'PUT'])
 def insurances_del_put(id):
@@ -80,34 +75,44 @@ def exercises_post_get():
 @app.route("/api/treatmentPlans", methods=['POST', 'GET'])
 def treatmentPlans_post_get():
     if request.method == 'GET':
-        query = "SELECT * FROM TreatmentPlans"
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
+        return read_treatment()
 
-        # Sends the results back to the web browser.
-        return jsonify_with_encoder(results)
+    if request.method == 'POST':
+        newTreatmentPlan = request.json
+        return create_treatment(newTreatmentPlan)
+
+
+@app.route("/api/treatmentPlans/<int:id>", methods=['DELETE', 'PUT'])
+def treatmentPlan_del_put(id):
+    if request.method == 'DELETE':
+        return delete_treatmentPlan(id)
+
+    if request.method == "PUT":
+        newTreatmentPlan = request.json
+        return update_treatmentPlan(id, newTreatmentPlan)
 
 
 @app.route("/api/treatmentPlansExercises", methods=['POST', 'GET'])
 def treatmentPlansExercises_post_get():
-    sleep(0.2)
     if request.method == 'GET':
-        query = """
-            SELECT
-                treatmentExerciseID, treatmentPlanID,
-                TreatmentExercises.exerciseID,
-                Exercises.exerciseName, sets, reps
-            FROM TreatmentExercises
-            INNER JOIN
-                Exercises ON Exercises.exerciseID = TreatmentExercises.exerciseID;
-        """
-        db_connection = db.connect_to_database()
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
+        return read_treatmentPE()
 
-        # Sends the results back to the web browser.
-        return jsonify_with_encoder(results)
+    if request.method == 'POST':
+        newTreatmentPlan = request.json
+        return create_treatmentPE(newTreatmentPlan)
+
+
+@app.route("/api/treatmentPlansExercises/<int:id>", methods=['DELETE', 'PUT'])
+def treatmentPlansExercises_del_put(id):
+    if request.method == 'DELETE':
+        return delete_treatmentPE(id)
+    
+    if request.method == "PUT":
+        newTreatmentPlan = request.json
+        return update_treatmentPE(id, newTreatmentPlan)
+
+
+
 
 
 @app.route("/api/therapists", methods=['POST', 'GET'])
@@ -125,7 +130,7 @@ def therapists_del_put(id):
     if request.method == 'PUT':
         newTherapist = request.json
         return update_therapists(id, newTherapist)
-    
+
 
 @app.route("/api/appointments", methods=['POST', 'GET'])
 def appointments_post_get():

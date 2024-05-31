@@ -17,12 +17,17 @@ const TableRow = ({ treatmentPlan, fetchTreatmentPlans }) => {
   };
 
   const deleteRow = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this treatment plan?");
+    if (!confirmed) {
+      return; // Exit the function if the user cancels the action
+    }
+
     try {
       const URL = import.meta.env.VITE_API_URL + "treatmentPlansExercises/" + treatmentPlan.treatmentExerciseID;
       const response = await axios.delete(URL);
       // Ensure that the treatmentPlan was deleted successfully
       if (response.status === 204) {
-        alert("TreatmentPlan deleted successfully");
+        alert("TreatmentPlan/Exercise deleted successfully");
       }
     } catch (err) {
       alert(err.response.data.error || "Error deleting treatmentPlan");
