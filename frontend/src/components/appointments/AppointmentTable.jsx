@@ -45,6 +45,7 @@ const AppointmentTable = () => {
           <p>No appointments found.</p>
         </div>
       ) : (
+        <div className="table-container">
         <table>
           <thead>
             <tr>
@@ -74,6 +75,7 @@ const AppointmentTable = () => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

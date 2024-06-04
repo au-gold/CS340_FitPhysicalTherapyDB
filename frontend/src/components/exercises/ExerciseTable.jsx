@@ -35,6 +35,7 @@ const ExerciseTable = () => {
           <p>No exercises found.</p>
         </div>
       ) : (
+        <div className="table-container">
         <table>
           <thead>
             <tr>
@@ -55,6 +56,7 @@ const ExerciseTable = () => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

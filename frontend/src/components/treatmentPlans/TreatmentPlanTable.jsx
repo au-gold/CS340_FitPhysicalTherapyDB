@@ -35,6 +35,7 @@ const TreatmentPlanTable = () => {
           <p>No Treatment Plans found.</p>
         </div>
       ) : (
+        <div className="table-container">
         <table>
           <thead>
             <tr>
@@ -55,6 +56,7 @@ const TreatmentPlanTable = () => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
       
       

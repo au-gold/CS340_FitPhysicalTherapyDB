@@ -27,9 +27,9 @@ function CreateTherapist() {
 
     try {
       const URL = import.meta.env.VITE_API_URL + "therapists";
-      // const URL = "http://127.0.0.1:9112/api/therapists";
       const response = await axios.post(URL, newTherapist);
       if (response.status === 201) {
+        alert("Therapist created successfully");
         navigate("/therapists");
       } else {
         alert("Error creating therapist");
