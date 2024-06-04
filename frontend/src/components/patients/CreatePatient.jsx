@@ -51,6 +51,7 @@ function CreatePatient() {
       const URL = import.meta.env.VITE_API_URL + "patients";
       const response = await axios.post(URL, newPatient);
       if (response.status === 201) {
+        alert("Patient created successfully");
         navigate("/patients");
       } else {
         alert("Error creating patient");
