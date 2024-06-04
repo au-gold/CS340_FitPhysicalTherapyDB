@@ -64,6 +64,7 @@ const UpdateExercise = () => {
   return (
     <div>
       <h2>Update Exercise</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Exercise Name:</label>
@@ -101,6 +102,7 @@ const UpdateExercise = () => {
         </button>
         <button type="submit">Update</button>
       </form>
+      </div>
     </div>
   );
 };

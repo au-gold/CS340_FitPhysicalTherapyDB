@@ -54,6 +54,7 @@ button {
   background-color: #3d24ad;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin: 10px;
 }
 button:hover {
   border-color: #646cff;
@@ -116,6 +117,7 @@ table {
 }
 
 div.table-container {
+  display: flex;
   justify-content: center;
   width: 100%;
   overflow-x: auto;
@@ -140,6 +142,12 @@ tr:hover {
   display: table;
   margin-bottom: 15px;
 } */
+
+div.form-container {
+  display: flex; 
+  justify-content: center; 
+  /* margin-bottom: 10px; */
+}
 
 div.form-group {
   display: table-row;

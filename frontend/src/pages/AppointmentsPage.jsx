@@ -1,13 +1,19 @@
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
-import { Routes, Route, Link, useLocation} from "react-router-dom";
+import { Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
 import CreateAppointment from "../components/appointments/CreateAppointment";
 import AppointmentTable from "../components/appointments/AppointmentTable";
 import UpdateAppointment from "../components/appointments/UpdateAppointment";
 
 function AppointmentsPage() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+
+  const handleAddClick = () => {
+    navigate("/appointments/add");
+  };
 
   return (
     <div>
@@ -23,7 +29,8 @@ function AppointmentsPage() {
             </>
           ) : (
             <li>
-              <Link to="/appointments/add">Add Appointment</Link>
+              <button onClick={handleAddClick}>Add Appointment</button>
+              {/* <Link to="/appointments/add">Add Appointment</Link> */}
             </li>
           )}
         </ul>

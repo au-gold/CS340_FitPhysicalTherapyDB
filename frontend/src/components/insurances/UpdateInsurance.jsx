@@ -64,6 +64,7 @@ const UpdateInsurance = () => {
   return (
     <div>
       <h2>Update Insurance</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Subscriber Name:</label>
@@ -101,6 +102,7 @@ const UpdateInsurance = () => {
         </button>
         <button type="submit">Update</button>
       </form>
+      </div>
     </div>
   );
 };

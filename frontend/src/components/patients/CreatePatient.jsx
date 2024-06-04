@@ -85,6 +85,7 @@ function CreatePatient() {
   return (
     <>
       <h2>Create a Patient</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>
@@ -152,6 +153,7 @@ function CreatePatient() {
           Cancel
         </button>
       </form>
+      </div>
     </>
   );
 }

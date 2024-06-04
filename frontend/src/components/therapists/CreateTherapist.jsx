@@ -61,6 +61,7 @@ function CreateTherapist() {
   return (
     <>
       <h2>Create a Therapist</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="firstName">First Name</label>
@@ -94,6 +95,7 @@ function CreateTherapist() {
         </button>
         <button type="submit">Create a Therapist</button>
       </form>
+      </div>
     </>
   );
 }

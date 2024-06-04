@@ -92,6 +92,7 @@ function CreateAppointment() {
   return (
     <>
       <h2>Create an Appointment</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="patientID">Patient</label>
@@ -166,6 +167,7 @@ function CreateAppointment() {
           Cancel
         </button>
       </form>
+      </div>
     </>
 
   );

@@ -64,6 +64,7 @@ const UpdateTherapist = () => {
   return (
     <div>
       <h2>Update Therapist</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>First Name:</label>
@@ -99,6 +100,7 @@ const UpdateTherapist = () => {
         </button>
         <button type="submit">Update</button>
       </form>
+      </div>
     </div>
   );
 };

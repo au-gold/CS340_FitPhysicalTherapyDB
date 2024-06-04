@@ -1,13 +1,19 @@
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
-import { Routes, Route, Link, useLocation} from "react-router-dom";
+import { Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
 import CreateInsurance from "../components/insurances/CreateInsurance";
 import InsuranceTable from "../components/insurances/InsuranceTable";
 import UpdateInsurance from "../components/insurances/UpdateInsurance";
 
 function InsurancesPage() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+
+  const handleAddClick = () => {
+    navigate("/insurances/add");
+  };
 
   return (
     <div>
@@ -23,7 +29,8 @@ function InsurancesPage() {
             </>
           ) : (
             <li>
-              <Link to="/insurances/add">Add Insurance</Link>
+              <button onClick={handleAddClick}>Add Insurance</button>
+              {/* <Link to="/insurances/add">Add Insurance</Link> */}
             </li>
           )}
         </ul>
