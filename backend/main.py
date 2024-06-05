@@ -12,7 +12,6 @@ from route_handlers.patient_routes import create_patients, read_patients, update
 from route_handlers.treatment_routes import create_treatment, read_treatment, update_treatmentPlan, delete_treatmentPlan
 from route_handlers.treatmentPE_routes import create_treatmentPE, read_treatmentPE, update_treatmentPE, delete_treatmentPE
 from route_handlers.exercise_routes import *
-from time import sleep
 import logging
 from custom_json_encoder import CustomJSONEncoder, jsonify_with_encoder
 
