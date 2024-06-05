@@ -1,4 +1,6 @@
 // Citation for following code
+// Based on CS340 react starter app
+// Changed input form to have dropdown menu to allow exercises to be selected.
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 import { useState, useEffect } from "react";

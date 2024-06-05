@@ -1,4 +1,7 @@
 // Citation for following code
+// Based on CS340 react starter app
+// Changed to handle our patient entity
+// Added dropdown menu for selecting insurance and handle no insurance case.
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 import { useState, useEffect } from "react";

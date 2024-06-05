@@ -1,4 +1,6 @@
 // Citation for following code
+// Based on CS340 react starter app
+// Changed to handle our patient entity
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 import axios from "axios";

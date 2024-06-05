@@ -1,3 +1,8 @@
+# Based on flask starter app
+# modified to include our SQL queries with DB
+# Modified to work with out react frontend
+# URL:https://github.com/osu-cs340-ecampus/flask-starter-app
+
 from flask import json, jsonify
 import database.db_connector as db
 

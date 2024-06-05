@@ -1,3 +1,7 @@
+# Based on flask starter app
+# modified to work with our db and react frontend.
+# URL:https://github.com/osu-cs340-ecampus/flask-starter-app
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import database.db_connector as db

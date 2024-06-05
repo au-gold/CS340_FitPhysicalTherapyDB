@@ -1,4 +1,6 @@
 // Citation for following code
+// Based on CS340 react starter app
+// Slight change to have links to our tables
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 import "./App.css";

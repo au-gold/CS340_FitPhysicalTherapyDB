@@ -1,4 +1,6 @@
 // Citation for following code
+// Based on CS340 react starter app
+// Changed handle M:M relationship by showing treamtent and intersection tables.
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 import { Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
