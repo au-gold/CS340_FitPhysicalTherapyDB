@@ -9,6 +9,8 @@ Based on:
 - [CS340 React Starter App](https://github.com/osu-cs340-ecampus/react-starter-app)
 
 ### Highlighted Modifications to Source Code
+- Using Flask for backend, handling SQL queries and sending result to frontend.
+- Using React for frontend, handling user inputs and displaying tables to the website.
 - Added dropdown menu for handling selection of foreign keys (e.g., adding a new patient with a dropdown menu for insurances)
 - Added confirmation prompt before deleting entries
 - Created a webpage to handle many-to-many relationships
