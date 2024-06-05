@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { GiWeightLiftingUp } from "react-icons/gi";;
 
 // Citation for following code
+// Based on CS340 react starter app
+// Updated to have links to our tables
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 

@@ -1,4 +1,5 @@
 # Citation for following code
+# No signficant changes to source code
 # source: https://github.com/osu-cs340-ecampus/flask-starter-app
 
 import MySQLdb

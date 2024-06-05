@@ -1,4 +1,7 @@
 // Citation for following code
+// Based on CS340 react starter app
+// Changed to handle our appointments entity
+// Added asking for confimration when deleting
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
 import axios from "axios";

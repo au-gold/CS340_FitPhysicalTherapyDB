@@ -1,6 +1,10 @@
+# Based on flask starter app
+# modified to include our SQL queries with DB
+# Modified to work with out react frontend
+# URL:https://github.com/osu-cs340-ecampus/flask-starter-app
+
 from flask import jsonify
 import database.db_connector as db
-from time import sleep
 
 
 def create_treatment(newTreatmentPlan):
