@@ -8,7 +8,7 @@ Based on:
 - [CS340 Flask Starter App](https://github.com/osu-cs340-ecampus/flask-starter-app)
 - [CS340 React Starter App](https://github.com/osu-cs340-ecampus/react-starter-app)
 
-### Highlight Modifications
+### Highlighted Modifications to Source Code
 - Added dropdown menu for handling selection of foreign keys (e.g., adding a new patient with a dropdown menu for insurances)
 - Added confirmation prompt before deleting entries
 - Created a webpage to handle many-to-many relationships
@@ -54,8 +54,6 @@ Fit Physical Therapy (FPT) is a local clinic that requires an optimized database
 7. **Treatment Exercises (Intersection Entity)**
     - **Fields**: treatmentExerciseID (PK), treatmentPlanID (FK), exerciseID (FK), sets, reps
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact Information
 For questions or suggestions, please contact:
