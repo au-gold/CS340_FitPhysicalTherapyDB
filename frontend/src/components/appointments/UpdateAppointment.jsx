@@ -99,6 +99,7 @@ const UpdateAppointment = () => {
   return (
     <div>
       <h2>Update Appointment</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Patient:</label>
@@ -176,6 +177,7 @@ const UpdateAppointment = () => {
           Cancel
         </button>
       </form>
+      </div>
     </div>
   );
 };

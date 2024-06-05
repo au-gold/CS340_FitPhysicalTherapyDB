@@ -61,6 +61,7 @@ function CreateTreatmentPlan() {
   return (
     <>
       <h2>Create a TreatmentPlan</h2>
+      <div className="form-container">
         <form onSubmit={handleSubmit} >
           <div className="form-group">
             <label htmlFor="duration">Duration in Weeks </label>
@@ -93,6 +94,7 @@ function CreateTreatmentPlan() {
           Cancel
         </button>
         </form>
+        </div>
     </>
   );
 }

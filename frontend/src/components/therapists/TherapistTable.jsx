@@ -36,6 +36,7 @@ const TherapistTable = () => {
           <p>No therapists found.</p>
         </div>
       ) : (
+        <div className="table-container">
         <table>
           <thead>
             <tr>
@@ -43,6 +44,8 @@ const TherapistTable = () => {
               <th>First Name</th>
               <th>Last Name</th>
               <th>License Number</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -54,6 +57,7 @@ const TherapistTable = () => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

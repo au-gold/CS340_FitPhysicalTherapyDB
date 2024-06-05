@@ -1,13 +1,20 @@
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
-import { Routes, Route, Link, useLocation} from "react-router-dom";
+import { Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
 import CreateExercise from "../components/exercises/CreateExercise";
 import ExerciseTable from "../components/exercises/ExerciseTable";
 import UpdateExercise from "../components/exercises/UpdateExercise";
 
 function ExercisesPage() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+
+  const handleAddClick = () => {
+    navigate("/exercises/add");
+  };
+
 
   return (
     <div>
@@ -23,7 +30,8 @@ function ExercisesPage() {
             </>
           ) : (
             <li>
-              <Link to="/exercises/add">Add Exercise</Link>
+              <button onClick={handleAddClick}>Add Exercise</button>
+              {/* <Link to="/exercises/add">Add Exercise</Link> */}
             </li>
           )}
         </ul>

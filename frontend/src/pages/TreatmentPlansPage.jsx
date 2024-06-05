@@ -1,7 +1,7 @@
 // Citation for following code
 // source: https://github.com/osu-cs340-ecampus/react-starter-app/
 
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Link, useLocation, useNavigate } from "react-router-dom";
 import CreateTreatmentPlan from "../components/treatmentPlans/CreateTreatmentPlan";
 import TreatmentPlanTable from "../components/treatmentPlans/TreatmentPlanTable";
 import UpdateTreatmentPlan from "../components/treatmentPlans/UpdateTreatmentPlan";
@@ -11,6 +11,16 @@ import TreatmentPlanExerciseTable from "../components/treatmentPlansExercises/Tr
 
 function TreatmentPlansPage() {
   const location = useLocation(); 
+  const navigate = useNavigate();
+
+
+  const handleAddClick = () => {
+    navigate("/treatmentPlans/add");
+  };
+
+  const handleAddTEClick = () => {
+    navigate("/treatmentPlans/add_t_and_e");
+  };
 
   return (
     <div>
@@ -28,10 +38,12 @@ function TreatmentPlansPage() {
           ) : (
             <>
               <li>
-                <Link to="/treatmentPlans/add">Add a Treatment Plan</Link>
+              <button onClick={handleAddClick}>Add a Treatment Plan</button>
+                {/* <Link to="/treatmentPlans/add">Add a Treatment Plan</Link> */}
               </li>
               <li>
-                <Link to="/treatmentPlans/add_t_and_e">Assign Exercises to a Treatment Plan</Link>
+                <button onClick={handleAddTEClick}>Assign Exercises to a Treatment Plan</button>
+                {/* <Link to="/treatmentPlans/add_t_and_e">Assign Exercises to a Treatment Plan</Link> */}
               </li>
             </>
           )}

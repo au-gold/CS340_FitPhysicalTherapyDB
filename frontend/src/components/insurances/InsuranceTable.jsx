@@ -35,6 +35,7 @@ const InsuranceTable = () => {
           <p>No insurances found.</p>
         </div>
       ) : (
+        <div className="table-container">
         <table>
           <thead>
             <tr>
@@ -55,6 +56,7 @@ const InsuranceTable = () => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

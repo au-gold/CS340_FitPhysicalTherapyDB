@@ -62,6 +62,7 @@ function CreateExercise() {
   return (
     <>
       <h2>Create an Exercise</h2>
+      <div className="form-container">
         <form onSubmit={handleSubmit} >
           <div className="form-group">
             <label htmlFor="exerciseName">Exercise Name </label>
@@ -97,6 +98,7 @@ function CreateExercise() {
         </button>
           <button type="submit">Create an Exercise</button>
         </form>
+        </div>
     </>
   );
 }

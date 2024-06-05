@@ -34,6 +34,7 @@ const TreatmentPlanExeriseTable = () => {
           <p>Loading...</p>
         </div>
       ) : (
+        <div className="table-container">
         <table>
           <thead>
             <tr>
@@ -55,6 +56,7 @@ const TreatmentPlanExeriseTable = () => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

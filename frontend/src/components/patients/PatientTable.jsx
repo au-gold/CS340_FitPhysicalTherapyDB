@@ -38,6 +38,7 @@ const PatientTable = () => {
           <p>No patients found.</p>
         </div>
       ) : (
+        <div className="table-container">
         <table>
           <thead>
             <tr>
@@ -63,6 +64,7 @@ const PatientTable = () => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

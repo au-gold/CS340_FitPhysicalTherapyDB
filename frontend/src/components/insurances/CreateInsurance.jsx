@@ -62,6 +62,7 @@ function CreateInsurance() {
   return (
     <>
       <h2>Create an Insurance</h2>
+      <div className="form-container">
         <form onSubmit={handleSubmit} >
           <div className="form-group">
             <label htmlFor="subscriberName">Subscriber Name </label>
@@ -95,6 +96,7 @@ function CreateInsurance() {
         </button>
           <button type="submit">Create an Insurance</button>
         </form>
+        </div>
     </>
   );
 }

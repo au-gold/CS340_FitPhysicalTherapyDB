@@ -84,6 +84,7 @@ const UpdateTreatmentPlanExercise = () => {
   return (
     <div>
       <h2>Update Treatment Plan Exercise</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Treatment Plan ID:</label>
@@ -148,6 +149,7 @@ const UpdateTreatmentPlanExercise = () => {
           Cancel
         </button>
       </form>
+      </div>
     </div>
   );
 };

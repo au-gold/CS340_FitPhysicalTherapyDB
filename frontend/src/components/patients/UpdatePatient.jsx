@@ -13,13 +13,16 @@ const UpdatePatient = () => {
   const location = useLocation();
   const prevPatient = location.state.patient;
 
+  const prevDate = new Date(prevPatient.dateOfBirth).toISOString().substring(0,10);
+  // console.log("insurance id:", prevPatient)
+
   const [formData, setFormData] = useState({
     firstName: prevPatient.firstName || '',
     lastName: prevPatient.lastName || '',
     dateOfBirth: prevPatient.dateOfBirth || '',
     address: prevPatient.address || '',
     phoneNumber: prevPatient.phoneNumber || '',
-    insuranceID: prevPatient.insuranceID || '',  // Changed from insuranceID to insuranceCardNum
+    insuranceID: prevPatient.insuranceID || '',  
   });
 
   const [insurances, setInsurances] = useState([]);
@@ -87,6 +90,7 @@ const UpdatePatient = () => {
   return (
     <div>
       <h2>Update Patient</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>First Name:</label>
@@ -114,7 +118,7 @@ const UpdatePatient = () => {
             type="date"
             name="dateOfBirth"
             onChange={handleInputChange}
-            defaultValue={prevPatient.dateOfBirth}
+            defaultValue={prevDate}
           />
         </div>
         <div className="form-group">
@@ -158,6 +162,7 @@ const UpdatePatient = () => {
         </button>
         <button type="submit">Update</button>
       </form>
+      </div>
     </div>
   );
 };

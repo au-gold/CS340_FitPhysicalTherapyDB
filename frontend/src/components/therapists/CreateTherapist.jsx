@@ -27,9 +27,9 @@ function CreateTherapist() {
 
     try {
       const URL = import.meta.env.VITE_API_URL + "therapists";
-      // const URL = "http://127.0.0.1:9112/api/therapists";
       const response = await axios.post(URL, newTherapist);
       if (response.status === 201) {
+        alert("Therapist created successfully");
         navigate("/therapists");
       } else {
         alert("Error creating therapist");
@@ -61,6 +61,7 @@ function CreateTherapist() {
   return (
     <>
       <h2>Create a Therapist</h2>
+      <div className="form-container">
       <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="firstName">First Name</label>
@@ -94,6 +95,7 @@ function CreateTherapist() {
         </button>
         <button type="submit">Create a Therapist</button>
       </form>
+      </div>
     </>
   );
 }

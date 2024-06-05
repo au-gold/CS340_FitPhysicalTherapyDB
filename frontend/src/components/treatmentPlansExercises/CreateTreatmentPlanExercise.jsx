@@ -82,6 +82,7 @@ function CreateTreatmentPlanExercise() {
   return (
     <>
       <h2>Assign an Exercise to a Treatment Plan </h2>
+      <div className="form-container">
         <form onSubmit={handleSubmit} >
           <div className="form-group">
             <label htmlFor="treatmentPlanID">Treatment Plan ID </label>
@@ -140,6 +141,7 @@ function CreateTreatmentPlanExercise() {
           Cancel
         </button>
         </form>
+        </div>
     </>
   );
 }
