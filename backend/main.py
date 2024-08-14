@@ -31,7 +31,7 @@ if __name__ != '__main__':
 def patients_post_get():
     if request.method == 'GET':
         return read_patients()
-    
+
     if request.method == 'POST':
         newPatient = request.json
         return create_patients(newPatient)
@@ -40,7 +40,7 @@ def patients_post_get():
 def patients_del_put(id):
     if request.method == 'DELETE':
         return delete_patients(id)
-    
+
     if request.method == 'PUT':
         newPatient = request.json
         return update_patients(id, newPatient)
@@ -73,15 +73,17 @@ def exercises_post_get():
         newExercise = request.json
         return create_exercises(newExercise)
 
+
 @app.route("/api/exercises/<int:id>", methods=['DELETE', 'PUT'])
 def exercises_del_put(id):
     if request.method == 'DELETE':
         return delete_exercises(id)  
-    
+
     if request.method == 'PUT':
         newExercise = request.json
         return update_exercises(id, newExercise)
-    
+
+
 @app.route("/api/treatmentPlans", methods=['POST', 'GET'])
 def treatmentPlans_post_get():
     if request.method == 'GET':
@@ -116,7 +118,7 @@ def treatmentPlansExercises_post_get():
 def treatmentPlansExercises_del_put(id):
     if request.method == 'DELETE':
         return delete_treatmentPE(id)
-    
+
     if request.method == "PUT":
         newTreatmentPlan = request.json
         return update_treatmentPE(id, newTreatmentPlan)
@@ -146,6 +148,7 @@ def appointments_post_get():
         newAppointment = request.json
         return create_appointments(newAppointment)
 
+
 @app.route("/api/appointments/<int:id>", methods=['DELETE', 'PUT'])
 def appointments_del_put(id):
     if request.method == 'DELETE':
@@ -153,8 +156,6 @@ def appointments_del_put(id):
     if request.method == 'PUT':
         newAppointment = request.json
         return update_appointments(id, newAppointment)
-
-
 
 
 if __name__ == "__main__":

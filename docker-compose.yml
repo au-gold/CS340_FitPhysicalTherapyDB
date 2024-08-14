@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mysqlDB:
+      image: mysql:8.0
+      container_name: app-db
+      # environment:
+      #   MYSQL_ROOT_PASSWORD: yourpassword  # Match 340DBPW in your .env file
+      #   MYSQL_DATABASE: yourdatabase       # Match 340DB in your .env file
+      ports:
+        - "3306:3306"
+      env_file:
+        - ./sql_files/.env
+
+  backend:
+    image: backend
+    container_name: flask_backend
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    ports:
+      - "58888:58888"
+    depends_on:
+      - mysqlDB
+    env_file:
+      - .env  # Load environment variables from your .env file
+
+  
+
+       
+
+
+  
+  
+
+
