@@ -1,16 +1,14 @@
-version: '3.8'
-
 services:
   mysqlDB:
-      image: mysql:8.0
+      image: mariadb
       container_name: app-db
-      # environment:
-      #   MYSQL_ROOT_PASSWORD: yourpassword  # Match 340DBPW in your .env file
-      #   MYSQL_DATABASE: yourdatabase       # Match 340DB in your .env file
       ports:
         - "3306:3306"
       env_file:
         - ./sql_files/.env
+      volumes:
+      - ./sql_files:/docker-entrypoint-initdb.d
+
 
   backend:
     image: backend
@@ -23,14 +21,19 @@ services:
     depends_on:
       - mysqlDB
     env_file:
-      - .env  # Load environment variables from your .env file
+      - ./backend/.env  # Load environment variables from your .env file
 
-  
-
-       
-
-
-  
-  
-
-
+  frontend:
+    image: frontend
+    container_name: react_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "58887:58887"
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+    stdin_open: true
+    tty: true
